@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.afdhal_fa.treasure.view.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_exchange"
+        android:name="com.afdhal_fa.treasure.view.exchange.ExchangeFragment"
+        android:label="@string/title_exchange"
+        tools:layout="@layout/fragment_exchange" />
+
+    <fragment
+        android:id="@+id/navigation_scan"
+        android:name="com.afdhal_fa.treasure.view.scan.ScanFragment"
+        android:label="@string/title_scan"
+        tools:layout="@layout/fragment_scan" />
+
+    <fragment
+        android:id="@+id/navigation_price"
+        android:name="com.afdhal_fa.treasure.view.price.PriceFragment"
+        android:label="fragment_price"
+        tools:layout="@layout/fragment_price" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.afdhal_fa.treasure.view.account.AccoutFragment"
+        android:label="fragment_accout"
+        tools:layout="@layout/fragment_accout" />
+
+</navigation>
