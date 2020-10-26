@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.utils.LoginValidate
@@ -51,6 +52,10 @@ class SignInFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        updateUI()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +73,8 @@ class SignInFragment : Fragment() {
         initGoogleSignInClient()
         printHashKey(requireContext())
 
+        binding.buttonSignIn.setOnClickListener { signInEmail() }
+
         binding.buttonSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
@@ -75,11 +82,10 @@ class SignInFragment : Fragment() {
         binding.buttonGoogleSign.setOnClickListener { signInGoogle() }
 
         binding.buttonFacebookSign.setOnClickListener {
-//            signInFacebook()
+            signInFacebook()
             Toast.makeText(requireContext(), "Comming soon !!!", Toast.LENGTH_SHORT).show()
         }
 
-        binding.buttonSignIn.setOnClickListener { signInEmail() }
     }
 
     private fun initGoogleSignInClient() {
@@ -128,7 +134,9 @@ class SignInFragment : Fragment() {
         val textEmail = binding.textFieldEmail.editText?.text.toString().trim()
         val textPassword = binding.textFieldPassword.editText?.text.toString().trim()
 
-        if (validate(textEmail, textPassword)) return
+        if (validate(textEmail, textPassword)) {
+            signInWithEmailAuth(textEmail, textPassword)
+        }
 
     }
 
@@ -162,27 +170,50 @@ class SignInFragment : Fragment() {
         signInWithGoogleAuthCredential(googleAuthCredential)
     }
 
+    private fun signInWithEmailAuth(email: String, password: String) {
+        viewmodel.signInWithEmail(email, password)
+        viewmodel.authResultWithEmail?.observe(viewLifecycleOwner, {
+            if (it != null) {
+                when (it) {
+                    is Resource.Success -> {
+                        onHideProgresbar()
+                        updateUI()
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(this.requireContext(), it.message, Toast.LENGTH_LONG).show()
+                        onHideProgresbar()
+                    }
+                    is Resource.Loading -> {
+                        onShowProgresbar()
+                    }
+                }
+            }
+        })
+    }
+
     /**
      *@param googleAuthCredential
      * this for go to check google sign in and set feedback
      */
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
         viewmodel.signInWithGoogle(googleAuthCredential)
-        viewmodel.authenticatedUserLiveData?.observe(viewLifecycleOwner) { authenticatedUser ->
+        viewmodel.authResulGoogle?.observe(viewLifecycleOwner) { authenticatedUser ->
             if (authenticatedUser != null) {
                 when (authenticatedUser) {
                     is Resource.Success -> {
+                        onHideProgresbar()
+                        updateUI()
+                    }
+                    is Resource.Error -> {
+                        onHideProgresbar()
                         Toast.makeText(
                             this.requireContext(),
-                            "${authenticatedUser.data?.name}",
+                            authenticatedUser.message,
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    is Resource.Error -> {
-                        Toast.makeText(this.requireContext(), "Error", Toast.LENGTH_LONG).show()
-                    }
                     is Resource.Loading -> {
-                        Toast.makeText(this.requireContext(), "Loading", Toast.LENGTH_LONG).show()
+                        onShowProgresbar()
                     }
                 }
             }
@@ -192,10 +223,11 @@ class SignInFragment : Fragment() {
     private fun signInWithFacebookAuth(result: LoginResult?) {
         val credential = FacebookAuthProvider.getCredential(result?.accessToken?.token!!)
         viewmodel.signInWithFacebook(credential)
-        viewmodel.authenticatedUserLiveData?.observe(viewLifecycleOwner, { authenticatedUser ->
+        viewmodel.authResulGoogle?.observe(viewLifecycleOwner, { authenticatedUser ->
             if (authenticatedUser != null) {
                 when (authenticatedUser) {
                     is Resource.Success -> {
+                        updateUI()
                         Toast.makeText(
                             this.requireContext(),
                             "${authenticatedUser.data?.name}",
@@ -211,16 +243,6 @@ class SignInFragment : Fragment() {
                 }
             }
         })
-
-    }
-
-    private fun updateUI() {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        if (firebaseAuth.currentUser != null) {
-            TODO("make not go to nex package")
-        } else {
-            TODO("make go to nex package")
-        }
     }
 
     /**
@@ -264,6 +286,34 @@ class SignInFragment : Fragment() {
         } catch (e: Exception) {
             Log.e(TAG, "printHashKey()", e)
         }
+    }
+
+
+    private fun updateUI() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        if (firebaseAuth.currentUser != null) {
+            startActivity(Intent(context, MainActivity::class.java))
+        }
+    }
+
+    private fun onShowProgresbar() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.textFieldEmail.isEnabled = false
+        binding.textFieldPassword.isEnabled = false
+        binding.buttonSignIn.isEnabled = false
+        binding.buttonSignUp.isEnabled = false
+        binding.buttonGoogleSign.isEnabled = false
+        binding.buttonFacebookSign.isEnabled = false
+    }
+
+    private fun onHideProgresbar() {
+        binding.progressBar.visibility = View.GONE
+        binding.textFieldEmail.isEnabled = true
+        binding.textFieldPassword.isEnabled = true
+        binding.buttonSignIn.isEnabled = true
+        binding.buttonSignUp.isEnabled = true
+        binding.buttonGoogleSign.isEnabled = true
+        binding.buttonFacebookSign.isEnabled = true
     }
 
 }

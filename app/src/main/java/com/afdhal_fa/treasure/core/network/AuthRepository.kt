@@ -1,6 +1,5 @@
 package com.afdhal_fa.treasure.core.network
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.Account
@@ -9,6 +8,24 @@ import com.google.firebase.auth.FirebaseAuth
 
 object AuthRepository {
     private val firebaseAuth = FirebaseAuth.getInstance()
+
+    fun firebaseSignInWithEmail(
+        email: String,
+        password: String
+    ): MutableLiveData<Resource<String>> {
+        val result: MutableLiveData<Resource<String>> = MutableLiveData()
+
+        result.value = Resource.Loading()
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authTask ->
+            if (authTask.isSuccessful) {
+                result.value = Resource.Success("")
+            } else {
+                result.value = Resource.Error(authTask.exception?.message.toString(), null)
+            }
+        }
+        return result
+    }
+
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<Resource<Account>> {
         val result: MutableLiveData<Resource<Account>> = MutableLiveData()
         result.value = Resource.Loading()
@@ -35,18 +52,10 @@ object AuthRepository {
                         result.value = Resource.Success(account)
                     }
                 } else {
-                    result.value = Resource.Error("Error", null)
+                    result.value = Resource.Error(authTask.exception?.message.toString(), null)
                 }
             }
         return result
-    }
-
-    fun firebaseSignInWithEmail(
-        email: String,
-        password: String
-    ): MutableLiveData<Resource<Account>> {
-//        val result: MutableLiveData<Resource<Account>> = MutableLiveData()
-        TODO("use $email and $password")
     }
 
     fun firebaseSignInWithFacebook(authCredential: AuthCredential): MutableLiveData<Resource<Account>> {
@@ -75,16 +84,10 @@ object AuthRepository {
                         result.value = Resource.Success(account)
                     }
                 } else {
-                    result.value = Resource.Error("Error", null)
+                    result.value = Resource.Error(authTask.exception?.message.toString(), null)
                 }
             }
 
-        return result
-    }
-
-    fun firebaseAuthInfo(): LiveData<Boolean> {
-        val result: MutableLiveData<Boolean> = MutableLiveData()
-        result.value = firebaseAuth.currentUser != null
         return result
     }
 }
