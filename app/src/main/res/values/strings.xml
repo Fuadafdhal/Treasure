@@ -10,6 +10,10 @@
 
     <string name="image_description">image</string>
 
+    <string name="facebook_app_id">454564002421417</string>
+    <string name="fb_login_protocol_scheme">fb454564002421417</string>
+
+
     <!--    LoginActivity-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -25,7 +29,6 @@
     <string name="prompt_name">Nama</string>
     <string name="text_or_sign_up">atau daftar dengan</string>
     <string name="text_ask_have_account">Sudah punya akun Trashure?</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
