@@ -30,6 +30,7 @@
     <string name="text_or_sign_up">atau daftar dengan</string>
     <string name="text_ask_have_account">Sudah punya akun Trashure?</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="prompt_birtday">Tanggal Lahir</string>
 
 
 </resources>

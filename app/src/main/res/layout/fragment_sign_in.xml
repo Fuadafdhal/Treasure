@@ -102,7 +102,7 @@
                 android:layout_marginTop="24dp"
                 android:minHeight="28dp"
                 android:text="@string/text_remember_me"
-                android:textColor="@color/colorTextButton"
+                android:textColor="@color/colorTextButton1"
                 app:buttonTint="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="@+id/textFieldPassword"
                 app:layout_constraintTop_toBottomOf="@+id/textFieldPassword"
@@ -117,7 +117,7 @@
                 android:minHeight="28dp"
                 android:text="@string/text_forgot_password"
                 android:textAllCaps="true"
-                android:textColor="@color/colorTextButton"
+                android:textColor="@color/colorTextButton1"
                 app:layout_constraintEnd_toEndOf="@+id/textFieldPassword"
                 app:layout_constraintTop_toBottomOf="@+id/textFieldPassword" />
 
@@ -203,7 +203,7 @@
                 android:minHeight="28dp"
                 android:text="@string/text_sign_up"
                 android:textAllCaps="true"
-                android:textColor="@color/colorTextButton"
+                android:textColor="@color/colorTextButton1"
                 app:layout_constraintBottom_toBottomOf="@+id/textAskNotHaveAccount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textAskNotHaveAccount"
