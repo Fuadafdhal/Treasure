@@ -31,14 +31,10 @@ class ExchangeFragment : Fragment() {
 
             val exchangeAdapter = ExchangeAdapter()
 
-            exchangeAdapter.onItemClick = { selecdata ->
-
-            }
             val listData = ArrayList<String>()
             listData.add("Pulsa")
             listData.add("Link Aja")
             listData.add("Dana")
-
 
             exchangeAdapter.setData(listData)
 

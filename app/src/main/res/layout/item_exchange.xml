@@ -15,6 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/layoutSubContainer"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -47,8 +48,9 @@
             tools:text="Pulsa" />
 
         <ImageButton
-            android:layout_width="13dp"
-            android:layout_height="7dp"
+            android:id="@+id/buttonExpandItem"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="34dp"
             android:background="@null"
             android:backgroundTint="@null"
@@ -88,6 +90,7 @@
                 app:boxBackgroundColor="@android:color/white"
                 app:boxStrokeColor="@android:color/white"
                 app:boxStrokeWidth="0.5dp"
+                app:endIconMode="custom"
                 app:boxStrokeWidthFocused="1dp"
                 app:hintTextColor="@color/colorTextHint"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +119,9 @@
                 app:boxBackgroundColor="@android:color/white"
                 app:boxStrokeColor="@android:color/white"
                 app:boxStrokeWidth="0.5dp"
+                app:endIconMode="custom"
                 app:boxStrokeWidthFocused="1dp"
+                app:endIconTint="#C4C4C4"
                 app:endIconDrawable="@drawable/ic_left_arrow_down"
                 app:hintTextColor="@color/colorTextHint"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -1,37 +1,25 @@
 package com.afdhal_fa.treasure.view.exchange
 
+import android.content.Intent
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.afdhal_fa.treasure.R
+import com.afdhal_fa.treasure.view.choose_nominal.ChoseeNominalActivity
 import kotlinx.android.synthetic.main.item_exchange.view.*
 import java.util.*
 
 class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
     private var listData = ArrayList<String>()
-    var onItemClick: ((String) -> Unit)? = null
 
     fun setData(newListData: List<String>?) {
         if (newListData != null) {
             listData.clear()
             listData.addAll(newListData)
             notifyDataSetChanged()
-        }
-
-    }
-
-    inner class VHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun onBind(data: String) {
-            with(itemView) {
-                textTitleExchangeType.text = data
-            }
-        }
-
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(listData[adapterPosition])
-            }
         }
     }
 
@@ -45,4 +33,32 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
     }
 
     override fun getItemCount() = listData.size
+
+    inner class VHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun onBind(data: String) {
+            with(itemView) {
+                textTitleExchangeType.text = data
+                buttonExpandItem.setOnClickListener {
+                    if (layoutFormExchange.visibility == View.GONE) {
+                        TransitionManager.beginDelayedTransition(container, AutoTransition())
+                        layoutFormExchange.visibility = View.VISIBLE
+                        buttonExpandItem.setImageResource(R.drawable.ic_left_arrow_up)
+                    } else {
+                        layoutFormExchange.visibility = View.GONE
+                        buttonExpandItem.setImageResource(R.drawable.ic_left_arrow_down)
+                    }
+                }
+
+                textFieldNominal.setEndIconOnClickListener {
+                    itemView.context.startActivity(
+                        Intent(
+                            itemView.context,
+                            ChoseeNominalActivity::class.java
+                        )
+                    )
+                }
+            }
+        }
+    }
 }

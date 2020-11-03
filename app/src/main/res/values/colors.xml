@@ -3,6 +3,7 @@
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryDark">#F8F8F8</color>
     <color name="colorAccent">#416188</color>
+    <color name="windowBackgoround">#F8F8F8</color>
 
     <color name="colorTextButton1">#416188</color>
     <color name="colorTextButton2">#FF5722</color>
