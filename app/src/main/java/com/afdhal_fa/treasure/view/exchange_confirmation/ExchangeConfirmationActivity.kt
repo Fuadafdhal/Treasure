@@ -7,6 +7,6 @@ import com.afdhal_fa.treasure.R
 class ExchangeConfirmationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_exchange_confirmation)
+        setContentView(R.layout.activity_exchange_status)
     }
 }

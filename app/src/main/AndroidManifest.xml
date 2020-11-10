@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".view.home.notification.DetailNotificationActivity"></activity>
+        <activity android:name=".view.home.notification.DetailNotificationActivity" />
         <activity android:name=".view.home.setting.SettingActivity" />
         <activity android:name=".view.home.notification.NotificationActivity" />
         <activity android:name=".view.home.deposit.DepositActivity" />
@@ -22,16 +22,19 @@
         <activity android:name=".view.exchange_confirmation.ExchangeConfirmationActivity" />
         <activity android:name=".view.choose_nominal.ChoseeNominalActivity" />
         <activity android:name=".view.account.edit_profile.MainEditProfile" />
-        <activity android:name=".LoginActivity" />
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main">
+        <activity android:name=".view.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main">
+
+        </activity>
+
         <activity android:name=".SplashScreenActivity" />
 
         <meta-data

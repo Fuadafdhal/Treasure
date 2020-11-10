@@ -1,7 +1,8 @@
 package com.afdhal_fa.treasure.view.home.detail_tips
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.afdhal_fa.treasure.R
 
 class DetailTipsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

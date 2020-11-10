@@ -24,7 +24,7 @@ class ChoseeNominalActivity : AppCompatActivity() {
 
         nominalAdapter.setData(listData)
 
-        with(rv_nominal) {
+        with(rvNominal) {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = nominalAdapter

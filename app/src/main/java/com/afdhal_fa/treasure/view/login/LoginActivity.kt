@@ -1,7 +1,8 @@
-package com.afdhal_fa.treasure
+package com.afdhal_fa.treasure.view.login
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.afdhal_fa.treasure.R
 
 class LoginActivity : AppCompatActivity() {
 

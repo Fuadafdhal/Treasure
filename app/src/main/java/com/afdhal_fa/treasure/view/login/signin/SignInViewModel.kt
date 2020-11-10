@@ -1,4 +1,4 @@
-package com.afdhal_fa.treasure.view.signin
+package com.afdhal_fa.treasure.view.login.signin
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.afdhal_fa.treasure.view.signin
+package com.afdhal_fa.treasure.view.login.signin
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,12 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.data.Resource
+import com.afdhal_fa.treasure.core.utils.BaseFragment
 import com.afdhal_fa.treasure.core.utils.LoginValidate
 import com.afdhal_fa.treasure.databinding.FragmentSignInBinding
 import com.facebook.CallbackManager
@@ -40,9 +40,9 @@ import java.util.*
 
 
 @Suppress("DEPRECATION")
-class SignInFragment : Fragment() {
+class SignInFragment : BaseFragment<SignInViewModel>() {
+
     private lateinit var binding: FragmentSignInBinding
-    private lateinit var viewmodel: SignInViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
     var callbackManager = CallbackManager.Factory.create()
 
@@ -67,8 +67,6 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewmodel = ViewModelProvider(this)[SignInViewModel::class.java]
 
         initGoogleSignInClient()
         printHashKey(requireContext())
@@ -315,6 +313,10 @@ class SignInFragment : Fragment() {
         binding.buttonSignUp.isEnabled = true
         binding.buttonGoogleSign.isEnabled = true
         binding.buttonFacebookSign.isEnabled = true
+    }
+
+    override fun initViewModel(): SignInViewModel {
+        return ViewModelProvider(this)[SignInViewModel::class.java]
     }
 
 }

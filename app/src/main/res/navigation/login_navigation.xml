@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.afdhal_fa.treasure.view.signin.SignInFragment"
+        android:name="com.afdhal_fa.treasure.view.login.signin.SignInFragment"
         android:label="SignInFragment"
         tools:layout="@layout/fragment_sign_in">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.afdhal_fa.treasure.view.signup.SignUpFragment"
+        android:name="com.afdhal_fa.treasure.view.login.signup.SignUpFragment"
         android:label="SignUpFragment"
         tools:layout="@layout/fragment_sign_up">
         <action
