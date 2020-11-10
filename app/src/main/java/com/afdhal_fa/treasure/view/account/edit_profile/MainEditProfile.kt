@@ -1,4 +1,4 @@
-package com.afdhal_fa.treasure.view.edit_profile
+package com.afdhal_fa.treasure.view.account.edit_profile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

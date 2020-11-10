@@ -93,6 +93,7 @@ class SignInFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
+
         googleSignInClient = GoogleSignIn.getClient(this.requireActivity(), googleSignInOptions)
     }
 
@@ -172,7 +173,7 @@ class SignInFragment : Fragment() {
 
     private fun signInWithEmailAuth(email: String, password: String) {
         viewmodel.signInWithEmail(email, password)
-        viewmodel.authResultWithEmail?.observe(viewLifecycleOwner, {
+        viewmodel.authResul?.observe(viewLifecycleOwner, {
             if (it != null) {
                 when (it) {
                     is Resource.Success -> {
@@ -197,7 +198,7 @@ class SignInFragment : Fragment() {
      */
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
         viewmodel.signInWithGoogle(googleAuthCredential)
-        viewmodel.authResulGoogle?.observe(viewLifecycleOwner) { authenticatedUser ->
+        viewmodel.authResul?.observe(viewLifecycleOwner) { authenticatedUser ->
             if (authenticatedUser != null) {
                 when (authenticatedUser) {
                     is Resource.Success -> {
@@ -223,7 +224,7 @@ class SignInFragment : Fragment() {
     private fun signInWithFacebookAuth(result: LoginResult?) {
         val credential = FacebookAuthProvider.getCredential(result?.accessToken?.token!!)
         viewmodel.signInWithFacebook(credential)
-        viewmodel.authResulGoogle?.observe(viewLifecycleOwner, { authenticatedUser ->
+        viewmodel.authResul?.observe(viewLifecycleOwner, { authenticatedUser ->
             if (authenticatedUser != null) {
                 when (authenticatedUser) {
                     is Resource.Success -> {

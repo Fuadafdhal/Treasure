@@ -8,17 +8,17 @@ import com.afdhal_fa.treasure.core.network.AuthRepository
 import com.google.firebase.auth.AuthCredential
 
 class SignInViewModel : ViewModel() {
-    var authResulGoogle: LiveData<Resource<Account>>? = null
-    var authResultWithEmail: LiveData<Resource<String>>? = null
+    var authResul: LiveData<Resource<Account>>? = null
+
     fun signInWithGoogle(googleAuthCredential: AuthCredential) {
-        authResulGoogle = AuthRepository.firebaseSignInWithGoogle(googleAuthCredential)
+        authResul = AuthRepository.firebaseSignInWithGoogle(googleAuthCredential)
     }
 
     fun signInWithEmail(email: String, password: String) {
-        authResultWithEmail = AuthRepository.firebaseSignInWithEmail(email, password)
+        authResul = AuthRepository.firebaseSignInWithEmail(email, password)
     }
 
     fun signInWithFacebook(authCredential: AuthCredential) {
-        authResulGoogle = AuthRepository.firebaseSignInWithFacebook(authCredential)
+        authResul = AuthRepository.firebaseSignInWithFacebook(authCredential)
     }
 }

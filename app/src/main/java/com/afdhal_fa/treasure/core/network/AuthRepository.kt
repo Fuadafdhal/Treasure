@@ -1,5 +1,6 @@
 package com.afdhal_fa.treasure.core.network
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.Account
@@ -12,13 +13,15 @@ object AuthRepository {
     fun firebaseSignInWithEmail(
         email: String,
         password: String
-    ): MutableLiveData<Resource<String>> {
-        val result: MutableLiveData<Resource<String>> = MutableLiveData()
+    ): MutableLiveData<Resource<Account>> {
+        val result: MutableLiveData<Resource<Account>> = MutableLiveData()
 
         result.value = Resource.Loading()
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authTask ->
             if (authTask.isSuccessful) {
-                result.value = Resource.Success("")
+                val account = Account()
+                account.isAuthenticated = authTask.result?.user != null
+                result.value = Resource.Success(account)
             } else {
                 result.value = Resource.Error(authTask.exception?.message.toString(), null)
             }
@@ -27,6 +30,55 @@ object AuthRepository {
     }
 
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<Resource<Account>> {
+        val result: MutableLiveData<Resource<Account>> = MutableLiveData()
+        result.value = Resource.Loading()
+        firebaseAuth.signInWithCredential(googleAuthCredential)
+            .addOnCompleteListener { authTask ->
+                if (authTask.isSuccessful) {
+                    val account = Account()
+                    account.isAuthenticated = authTask.result?.user != null
+                    result.value = Resource.Success(account)
+
+                } else {
+                    result.value = Resource.Error(authTask.exception?.message.toString(), null)
+                }
+            }
+        return result
+    }
+
+    fun firebaseSignInWithFacebook(authCredential: AuthCredential): MutableLiveData<Resource<Account>> {
+        val result: MutableLiveData<Resource<Account>> = MutableLiveData()
+        result.postValue(Resource.Loading())
+        FirebaseAuth.getInstance().signInWithCredential(authCredential)
+            .addOnCompleteListener { authTask ->
+                if (authTask.isSuccessful) {
+                    val account = Account()
+                    account.isAuthenticated = authTask.result?.user != null
+                    result.value = Resource.Success(account)
+                } else {
+                    result.value = Resource.Error(authTask.exception?.message.toString(), null)
+                }
+            }
+        return result
+    }
+
+
+    // TODO: 09/11/2020
+    fun signUpWithEmail(email: String, password: String): LiveData<Resource<String>> {
+        val result: MutableLiveData<Resource<String>> = MutableLiveData()
+
+        result.value = Resource.Loading()
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authTask ->
+            if (authTask.isSuccessful) {
+                result.value = Resource.Success("Success")
+            } else {
+                result.value = Resource.Error(authTask.exception?.message.toString(), null)
+            }
+        }
+        return result
+    }
+
+    fun signUpWithGoogle(googleAuthCredential: AuthCredential): LiveData<Resource<Account>> {
         val result: MutableLiveData<Resource<Account>> = MutableLiveData()
         result.value = Resource.Loading()
         firebaseAuth.signInWithCredential(googleAuthCredential)
@@ -58,7 +110,7 @@ object AuthRepository {
         return result
     }
 
-    fun firebaseSignInWithFacebook(authCredential: AuthCredential): MutableLiveData<Resource<Account>> {
+    fun signUpWithFacebook(authCredential: AuthCredential): LiveData<Resource<Account>> {
         val result: MutableLiveData<Resource<Account>> = MutableLiveData()
         result.postValue(Resource.Loading())
         FirebaseAuth.getInstance().signInWithCredential(authCredential)

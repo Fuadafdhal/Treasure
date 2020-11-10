@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryDark">#F8F8F8</color>
-    <color name="colorAccent">#416188</color>
+    <color name="colorAccent">#FF5722</color>
     <color name="windowBackgoround">#F8F8F8</color>
 
     <color name="colorTextButton1">#416188</color>
@@ -10,6 +10,7 @@
     <color name="colorTextLabel">#416188</color>
     <color name="colorTextHint">#7C7C7C</color>
     <color name="colorTextHintLabel">#A8A8A8</color>
+    <color name="colorTintActionMenuHome">#737373</color>
     <color name="colorTextImageTitle">#949495</color>
     <color name="colorTextItemToolbar">#737373</color>
     <color name="colorCardStatus">#F6F7F9</color>

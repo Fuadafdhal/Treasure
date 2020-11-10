@@ -13,10 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".view.exchange_status.ExchangeStatusActivity"></activity>
+        <activity android:name=".view.home.notification.DetailNotificationActivity"></activity>
+        <activity android:name=".view.home.setting.SettingActivity" />
+        <activity android:name=".view.home.notification.NotificationActivity" />
+        <activity android:name=".view.home.deposit.DepositActivity" />
+        <activity android:name=".view.home.detail_tips.DetailTipsActivity" />
+        <activity android:name=".view.exchange_status.ExchangeStatusActivity" />
         <activity android:name=".view.exchange_confirmation.ExchangeConfirmationActivity" />
         <activity android:name=".view.choose_nominal.ChoseeNominalActivity" />
-        <activity android:name=".view.edit_profile.MainEditProfile" />
+        <activity android:name=".view.account.edit_profile.MainEditProfile" />
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"
