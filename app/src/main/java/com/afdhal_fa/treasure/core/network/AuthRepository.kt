@@ -106,10 +106,8 @@ object AuthRepository {
     fun signInWithEmail(
         email: String,
         password: String
-    ): MutableLiveData<Resource<User>> {
+    ): LiveData<Resource<User>> {
         val result: MutableLiveData<Resource<User>> = MutableLiveData()
-
-        result.value = Resource.Loading()
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authTask ->
             if (authTask.isSuccessful) {
                 val account = User()
@@ -121,69 +119,4 @@ object AuthRepository {
         }
         return result
     }
-
-//    fun signUpWithGoogle(googleAuthCredential: AuthCredential): LiveData<Resource<User>> {
-//        val result: MutableLiveData<Resource<User>> = MutableLiveData()
-//        result.value = Resource.Loading()
-//        firebaseAuth.signInWithCredential(googleAuthCredential)
-//            .addOnCompleteListener { authTask ->
-//                if (authTask.isSuccessful) {
-//                    val isNewUser = authTask.result?.additionalUserInfo?.isNewUser!!
-//                    val firebaseUser = authTask.result?.user
-//                    if (firebaseUser != null) {
-//                        val uid = firebaseUser.uid
-//                        val name = firebaseUser.displayName.toString()
-//                        val email = firebaseUser.email.toString()
-//                        val image = firebaseUser.photoUrl.toString()
-//                        val phoneNumber = firebaseUser.phoneNumber.toString()
-//                        val account = User(
-//                            uid = uid,
-//                            name = name,
-//                            email = email,
-//                            phoneNumber = phoneNumber,
-//                            birtdayDate = "",
-//                            image = image
-//                        )
-//                        account.isNew = isNewUser
-//                        result.value = Resource.Success(account)
-//                    }
-//                } else {
-//                    result.value = Resource.Error(authTask.exception?.message.toString(), null)
-//                }
-//            }
-//        return result
-//    }
-//
-//    fun signUpWithFacebook(authCredential: AuthCredential): LiveData<Resource<User>> {
-//        val result: MutableLiveData<Resource<User>> = MutableLiveData()
-//        result.postValue(Resource.Loading())
-//        FirebaseAuth.getInstance().signInWithCredential(authCredential)
-//            .addOnCompleteListener { authTask ->
-//                if (authTask.isSuccessful) {
-//                    val isNewUser = authTask.result?.additionalUserInfo?.isNewUser!!
-//                    val firebaseUser = authTask.result?.user
-//                    if (firebaseUser != null) {
-//                        val uid = firebaseUser.uid
-//                        val name = firebaseUser.displayName.toString()
-//                        val email = firebaseUser.email.toString()
-//                        val image = firebaseUser.photoUrl.toString()
-//                        val phoneNumber = firebaseUser.phoneNumber.toString()
-//                        val account = User(
-//                            uid = uid,
-//                            name = name,
-//                            email = email,
-//                            phoneNumber = phoneNumber,
-//                            birtdayDate = "",
-//                            image = image
-//                        )
-//                        account.isNew = isNewUser
-//                        result.value = Resource.Success(account)
-//                    }
-//                } else {
-//                    result.value = Resource.Error(authTask.exception?.message.toString(), null)
-//                }
-//            }
-//
-//        return result
-//    }
 }

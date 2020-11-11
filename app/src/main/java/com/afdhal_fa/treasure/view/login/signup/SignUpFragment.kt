@@ -227,7 +227,9 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         callbackManager.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == Constants.RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {

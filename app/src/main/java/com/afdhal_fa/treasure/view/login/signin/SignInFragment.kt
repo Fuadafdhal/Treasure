@@ -11,9 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.data.Resource
+import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.utils.BaseFragment
 import com.afdhal_fa.treasure.core.utils.Constants.RC_SIGN_IN
 import com.afdhal_fa.treasure.core.utils.LoginValidate
+import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.databinding.FragmentSignInBinding
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -157,20 +159,19 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
     }
 
     private fun signInWithEmailAuth(email: String, password: String) {
-        viewmodel.signInWithEmail(email, password)
-        viewmodel.authResul?.observe(viewLifecycleOwner, {
+        onShowProgresbar()
+        viewmodel.signInWithEmail(email, password).observe(viewLifecycleOwner, {
             if (it != null) {
                 when (it) {
                     is Resource.Success -> {
+                        if (it.data!!.isAuthenticated) {
+                            updateUI()
+                        }
                         onHideProgresbar()
-                        updateUI()
                     }
                     is Resource.Error -> {
-                        Toast.makeText(this.requireContext(), it.message, Toast.LENGTH_LONG).show()
+                        context?.makeToast(it.message.toString())
                         onHideProgresbar()
-                    }
-                    is Resource.Loading -> {
-                        onShowProgresbar()
                     }
                 }
             }
@@ -182,54 +183,71 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
      * this for go to check google sign in and set feedback
      */
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
+        onShowProgresbar()
         viewmodel.signInWithGoogle(googleAuthCredential)
-        viewmodel.authResul?.observe(viewLifecycleOwner) { authenticatedUser ->
-            if (authenticatedUser != null) {
-                when (authenticatedUser) {
-                    is Resource.Success -> {
-                        onHideProgresbar()
-                        updateUI()
-                    }
-                    is Resource.Error -> {
-                        onHideProgresbar()
-                        Toast.makeText(
-                            this.requireContext(),
-                            authenticatedUser.message,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                    is Resource.Loading -> {
-                        onShowProgresbar()
+            .observe(viewLifecycleOwner) { authenticatedUser ->
+                if (authenticatedUser != null) {
+                    when (authenticatedUser) {
+                        is Resource.Success -> {
+                            if (authenticatedUser.data?.isNew!!) {
+                                createNewUser(authenticatedUser.data)
+                                Timber.d("createUser: Success")
+                            } else {
+                                updateUI()
+                                onHideProgressBar()
+                                Timber.d("createUser: A Ready An Account!")
+                            }
+                        }
+                        is Resource.Error -> {
+                            onHideProgresbar()
+                            Toast.makeText(
+                                this.requireContext(),
+                                authenticatedUser.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
                 }
             }
-        }
     }
 
     private fun signInWithFacebookAuth(result: LoginResult?) {
         val credential = FacebookAuthProvider.getCredential(result?.accessToken?.token!!)
-        viewmodel.signInWithFacebook(credential)
-        viewmodel.authResul?.observe(viewLifecycleOwner, { authenticatedUser ->
-            if (authenticatedUser != null) {
-                when (authenticatedUser) {
+        viewmodel.signInWithFacebook(credential).observe(viewLifecycleOwner, {
+            if (it != null) {
+                when (it) {
                     is Resource.Success -> {
                         updateUI()
-                        Toast.makeText(
-                            this.requireContext(),
-                            "${authenticatedUser.data?.name}",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        context?.makeToast(it.data?.name.toString())
                     }
                     is Resource.Error -> {
                         Toast.makeText(this.requireContext(), "Error", Toast.LENGTH_LONG).show()
-                    }
-                    is Resource.Loading -> {
-                        Toast.makeText(this.requireContext(), "Loading", Toast.LENGTH_LONG).show()
                     }
                 }
             }
         })
     }
+
+
+    private fun createNewUser(mUser: User) {
+        viewmodel.createUser(mUser).observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Success -> {
+                    if (it.data?.isCreated!!) {
+                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_LONG).show()
+                        updateUI()
+                    }
+                    this.onHideProgressBar()
+                }
+                is Resource.Error -> {
+                    this.onHideProgressBar()
+                }
+                is Resource.Loading -> {
+                }
+            }
+        })
+    }
+
 
     /**
      * @param email
