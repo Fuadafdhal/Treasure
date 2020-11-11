@@ -18,8 +18,8 @@ buildscript {
     ext.firebaseauth_version = "20.0.0"
     ext.firebasecore_version = "18.0.0"
     ext.playservicesauth_version = "18.1.0"
-    ext.facebookandroidsdk_version = "4.42.0"
     ext.firebasefirestore_version = "22.0.0"
+    ext.facebookandroidsdk_version = "5.15.3"
 
     ext._version = "2.2.5"
 

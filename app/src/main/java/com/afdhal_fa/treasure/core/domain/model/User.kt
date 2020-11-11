@@ -1,7 +1,7 @@
 package com.afdhal_fa.treasure.core.domain.model
 
-data class Account(
-    val userId: String? = "",
+data class User(
+    val uid: String? = "",
     val name: String? = "",
     val email: String? = "",
     val phoneNumber: String? = "",

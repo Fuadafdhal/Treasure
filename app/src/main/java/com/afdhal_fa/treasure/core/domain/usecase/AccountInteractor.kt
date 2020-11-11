@@ -2,14 +2,14 @@ package com.afdhal_fa.treasure.core.domain.usecase
 
 import androidx.lifecycle.LiveData
 import com.afdhal_fa.treasure.core.data.Resource
-import com.afdhal_fa.treasure.core.domain.model.Account
 import com.afdhal_fa.treasure.core.domain.model.TrashureAccount
+import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.domain.repository.IAccountRepository
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthCredential
 
 class AccountInteractor(private val accountRepository: IAccountRepository) : AccountUseCase {
-    override fun getInfoAccount(): LiveData<Resource<Account>> {
+    override fun getInfoAccount(): LiveData<Resource<User>> {
         TODO("Not yet implemented")
     }
 
