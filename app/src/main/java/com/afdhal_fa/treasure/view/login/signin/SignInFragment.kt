@@ -1,13 +1,7 @@
 package com.afdhal_fa.treasure.view.login.signin
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +12,7 @@ import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.utils.BaseFragment
+import com.afdhal_fa.treasure.core.utils.Constants.RC_SIGN_IN
 import com.afdhal_fa.treasure.core.utils.LoginValidate
 import com.afdhal_fa.treasure.databinding.FragmentSignInBinding
 import com.facebook.CallbackManager
@@ -34,8 +29,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+import timber.log.Timber
 import java.util.*
 
 
@@ -45,12 +39,6 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
     private lateinit var binding: FragmentSignInBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     var callbackManager = CallbackManager.Factory.create()
-
-    companion object {
-        var TAG = SignInFragment::class.java.simpleName
-        private const val RC_SIGN_IN = 2020
-
-    }
 
     override fun onStart() {
         super.onStart()
@@ -69,7 +57,6 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         initGoogleSignInClient()
-        printHashKey(requireContext())
 
         binding.buttonSignIn.setOnClickListener { signInEmail() }
 
@@ -117,11 +104,11 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
                 }
 
                 override fun onCancel() {
-                    Log.d(TAG, "signInFacebook : onCalled")
+                    Timber.d("signInFacebook : onCalled")
                 }
 
                 override fun onError(error: FacebookException?) {
-                    Log.d(TAG, "signInFacebook: onError { $error }")
+                    Timber.d("signInFacebook: onError { $error }")
                 }
             })
     }
@@ -154,7 +141,7 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
                 val googleSignInAccount = task.getResult(ApiException::class.java)
                 googleSignInAccount?.let { getGoogleAuthCredential(it) }
             } catch (e: ApiException) {
-                Log.d(TAG, e.message.toString())
+                Timber.d(e.message.toString())
             }
         }
     }
@@ -267,24 +254,6 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
             return false
         }
         return true
-    }
-
-    @SuppressLint("PackageManagerGetSignatures")
-    fun printHashKey(pContext: Context) {
-        try {
-            val info: PackageInfo = pContext.packageManager
-                .getPackageInfo(pContext.packageName, PackageManager.GET_SIGNATURES)
-            for (signature in info.signatures) {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                val hashKey = String(Base64.encode(md.digest(), 0))
-                Log.i(TAG, "printHashKey() Hash Key: $hashKey")
-            }
-        } catch (e: NoSuchAlgorithmException) {
-            Log.e(TAG, "printHashKey()", e)
-        } catch (e: Exception) {
-            Log.e(TAG, "printHashKey()", e)
-        }
     }
 
 

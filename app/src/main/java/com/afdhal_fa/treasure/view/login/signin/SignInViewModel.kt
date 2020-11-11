@@ -11,14 +11,14 @@ class SignInViewModel : ViewModel() {
     var authResul: LiveData<Resource<User>>? = null
 
     fun signInWithGoogle(googleAuthCredential: AuthCredential) {
-        authResul = AuthRepository.firebaseSignInWithGoogle(googleAuthCredential)
+        authResul = AuthRepository.signInWithGoogle(googleAuthCredential)
     }
 
     fun signInWithEmail(email: String, password: String) {
-        authResul = AuthRepository.firebaseSignInWithEmail(email, password)
+        authResul = AuthRepository.signInWithEmail(email, password)
     }
 
     fun signInWithFacebook(authCredential: AuthCredential) {
-        authResul = AuthRepository.firebaseSignInWithFacebook(authCredential)
+        authResul = AuthRepository.signInWithFacebook(authCredential)
     }
 }

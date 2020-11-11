@@ -12,14 +12,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 object FirestoreRepository {
     private val rootRef = FirebaseFirestore.getInstance()
-    private val usersRef: CollectionReference = rootRef.collection("USERS")
+    private val usersRef: CollectionReference = rootRef.collection(FirestoreContact.ACCOUNT_CLOUD)
+//    private val Ref: CollectionReference = rootRef.collection(FirestoreContact.ACCOUNT_CLOUD)
 
-//    fun createUserInFirestoreIfNotExists()
-
-    fun createUserInFirestoreIfNotExists(mUser: User): LiveData<Resource<User>>? {
+    fun createUserInFirestoreIfNotExists(mUser: User): LiveData<Resource<User>> {
         val result: MutableLiveData<Resource<User>> = MutableLiveData()
 
-        val uidRef: DocumentReference = usersRef.document(mUser.uid.toString())
+        val uidRef: DocumentReference = usersRef.document(mUser.uid)
 
         uidRef.get().addOnCompleteListener { uidTask: Task<DocumentSnapshot?> ->
             if (uidTask.isSuccessful) {

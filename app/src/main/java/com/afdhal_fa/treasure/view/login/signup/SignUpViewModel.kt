@@ -6,18 +6,24 @@ import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.network.AuthRepository
 import com.afdhal_fa.treasure.core.network.FirestoreRepository
+import com.google.firebase.auth.AuthCredential
 
 class SignUpViewModel : ViewModel() {
-    var authResult: LiveData<Resource<User>>? = null
 
-    var createNewUserResult: LiveData<Resource<User>>? = null
+    fun signUpWithEmail(
+        name: String,
+        email: String,
+        phone: String,
+        password: String
+    ): LiveData<Resource<User>> = AuthRepository.signUpWithEmail(name, email, phone, password)
 
-    fun signUpWithEmail(name: String, email: String, phone: String, password: String) {
-        authResult = AuthRepository.signUpWithEmail(name, email, phone, password)
-    }
+    fun signInWithGoogle(credential: AuthCredential): LiveData<Resource<User>> =
+        AuthRepository.signInWithGoogle(credential)
 
-    fun createUser(user: User) {
-        createNewUserResult = FirestoreRepository.createUserInFirestoreIfNotExists(user)
-    }
+    fun signInWithFacebook(credential: AuthCredential): LiveData<Resource<User>> =
+        AuthRepository.signInWithFacebook(credential)
 
+
+    fun createUser(authenticatedUser: User): LiveData<Resource<User>> =
+        FirestoreRepository.createUserInFirestoreIfNotExists(authenticatedUser)
 }
