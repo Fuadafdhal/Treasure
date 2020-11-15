@@ -127,10 +127,19 @@ object AuthRepository {
                 user.isAuthenticated = false
                 value = Resource.Error("isAuthenticated: False", user)
             } else {
-                user.isAuthenticated = true
                 user = User(uid = firebaseAuth.uid.toString())
+                user.isAuthenticated = true
                 value = Resource.Success(user)
             }
+        }
+    }
+
+    fun logOutAuthenticatedInFirebase(): LiveData<Resource<User>> {
+        return MutableLiveData<Resource<User>>().apply {
+            val user = User()
+            firebaseAuth.signOut()
+            user.isAuthenticated = false
+            value = Resource.Success(user)
         }
     }
 }

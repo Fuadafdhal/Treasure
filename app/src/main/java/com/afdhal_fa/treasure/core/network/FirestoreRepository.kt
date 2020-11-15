@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
+
 object FirestoreRepository {
     private val rootRef = FirebaseFirestore.getInstance()
     private val usersRef: CollectionReference = rootRef.collection(FirestoreContact.ACCOUNT_CLOUD)
@@ -47,30 +48,43 @@ object FirestoreRepository {
 
 
     fun viewTreasureUser(userid: String): LiveData<Resource<TreasureUser>> {
-        val result: MutableLiveData<Resource<TreasureUser>> = MutableLiveData()
-
-        val uidRef: DocumentReference = treasureUserRef.document(userid)
-
-        uidRef.get().addOnCompleteListener { uidTask: Task<DocumentSnapshot?> ->
-            if (uidTask.isSuccessful) {
-                val document = uidTask.result
-                if (document?.exists()!!) {
-                    val mTreasureUser = document.toObject(TreasureUser::class.java)
-                    println(mTreasureUser)
-//                    result.setValue(Resource.Success(mUser))
-
-                } else {
-                    result.setValue(Resource.Error("Emty Data"))
+        return MutableLiveData<Resource<TreasureUser>>().apply {
+            treasureUserRef
+                .get()
+                .addOnCompleteListener { uidTask ->
+                    if (uidTask.isSuccessful) {
+                        for (i in uidTask.result?.documents!!) {
+                            val mTreasureUser = i.toObject(TreasureUser::class.java) as TreasureUser
+                            if (mTreasureUser.uid.equals(userid)) {
+                                postValue(Resource.Success(mTreasureUser))
+                            } else {
+                                postValue(Resource.Error("not same"))
+                            }
+                        }
+                    } else {
+                        postValue(Resource.Error(uidTask.exception!!.message.toString()))
+                    }
                 }
-            } else {
-                result.setValue(Resource.Error(uidTask.exception!!.message.toString()))
-            }
         }
-        return result
     }
 
     fun viewUser(uid: String): LiveData<Resource<User>> {
-        TODO("Not yet implemented")
+        return MutableLiveData<Resource<User>>().apply {
+            val uidRef: DocumentReference = usersRef.document(uid)
+            uidRef.get().addOnCompleteListener { uidTask: Task<DocumentSnapshot?> ->
+                if (uidTask.isSuccessful) {
+                    val document = uidTask.result
+                    if (document?.exists()!!) {
+                        val mUser = document.toObject(User::class.java) as User
+                        postValue(Resource.Success(mUser))
+                    } else {
+                        postValue(Resource.Error("Emty Data"))
+                    }
+                } else {
+                    postValue(Resource.Error(uidTask.exception!!.message.toString()))
+                }
+            }
+        }
     }
 
 }

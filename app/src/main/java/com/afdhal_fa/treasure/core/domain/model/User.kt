@@ -10,7 +10,6 @@ data class User(
     val birtdayDate: String = "",
     val image: String = ""
 ) {
-
     @get:Exclude
     var isAuthenticated: Boolean = false
 

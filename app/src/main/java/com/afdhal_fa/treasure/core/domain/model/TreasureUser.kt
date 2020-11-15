@@ -4,5 +4,5 @@ data class TreasureUser(
     val level: Int = 0,
     val saldo: Long = 0L,
     val totalTreash: Int = 0,
-    val userId: String = "",
+    val uid: String = "",
 )
