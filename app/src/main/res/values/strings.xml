@@ -32,5 +32,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="prompt_birtday">Tanggal Lahir</string>
 
+    <!--    AccountFragment-->
+    <string name="text_level">Level</string>
+    <string name="text_saldo">Saldo</string>
+    <string name="text_total">Total</string>
+    <string name="text_logout">Keluar</string>
+
 
 </resources>

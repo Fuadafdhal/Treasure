@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.data.Resource

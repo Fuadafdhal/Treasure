@@ -119,4 +119,18 @@ object AuthRepository {
         }
         return result
     }
+
+    fun checkIfUserIsAuthenticatedInFirebase(): LiveData<Resource<User>> {
+        return MutableLiveData<Resource<User>>().apply {
+            var user = User()
+            if (firebaseAuth.currentUser == null) {
+                user.isAuthenticated = false
+                value = Resource.Error("isAuthenticated: False", user)
+            } else {
+                user.isAuthenticated = true
+                user = User(uid = firebaseAuth.uid.toString())
+                value = Resource.Success(user)
+            }
+        }
+    }
 }
