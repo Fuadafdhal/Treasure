@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.network.AuthRepository
-import com.afdhal_fa.treasure.core.network.FirestoreRepository
+import com.afdhal_fa.treasure.core.network.FirestoreRepositoryAccount
 import com.google.firebase.auth.AuthCredential
 
 class SignUpViewModel : ViewModel() {
@@ -25,5 +25,5 @@ class SignUpViewModel : ViewModel() {
 
 
     fun createUser(authenticatedUser: User): LiveData<Resource<User>> =
-        FirestoreRepository.createUserInFirestoreIfNotExists(authenticatedUser)
+        FirestoreRepositoryAccount.createUserInFirestoreIfNotExists(authenticatedUser)
 }

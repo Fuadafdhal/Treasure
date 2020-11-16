@@ -12,7 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 
-object FirestoreRepository {
+object FirestoreRepositoryAccount {
     private val rootRef = FirebaseFirestore.getInstance()
     private val usersRef: CollectionReference = rootRef.collection(FirestoreContact.ACCOUNT_CLOUD)
     private val treasureUserRef: CollectionReference =
@@ -47,7 +47,7 @@ object FirestoreRepository {
     }
 
 
-    fun viewTreasureUser(userid: String): LiveData<Resource<TreasureUser>> {
+    fun viewTreasureUserInFirestore(userid: String): LiveData<Resource<TreasureUser>> {
         return MutableLiveData<Resource<TreasureUser>>().apply {
             treasureUserRef
                 .get()
@@ -68,7 +68,7 @@ object FirestoreRepository {
         }
     }
 
-    fun viewUser(uid: String): LiveData<Resource<User>> {
+    fun viewUserInFirestore(uid: String): LiveData<Resource<User>> {
         return MutableLiveData<Resource<User>>().apply {
             val uidRef: DocumentReference = usersRef.document(uid)
             uidRef.get().addOnCompleteListener { uidTask: Task<DocumentSnapshot?> ->
@@ -87,4 +87,42 @@ object FirestoreRepository {
         }
     }
 
+    fun updateDataProfileInFirestore(
+        uid: String,
+        image: String,
+        name: String,
+        phoneNumber: String,
+        birtday: String
+    ) = MutableLiveData<Resource<User>>().apply {
+        val uidRef: DocumentReference = usersRef.document(uid)
+        val mHashMapUser = HashMap<String, Any>().apply {
+            put("image", image)
+            put("name", name)
+            put("phoneNumber", phoneNumber)
+            put("birtdayDate", birtday)
+        }
+
+        uidRef.get().addOnCompleteListener { uidTask: Task<DocumentSnapshot?> ->
+            if (uidTask.isSuccessful) {
+                val document = uidTask.result
+                if (document?.exists()!!) {
+                    uidRef.update(mHashMapUser)
+                        .addOnCompleteListener { userCreationTask: Task<Void?> ->
+                            if (userCreationTask.isSuccessful) {
+                                postValue(Resource.Success(User()))
+                            } else {
+                                postValue(Resource.Error(uidTask.exception!!.message.toString()))
+                            }
+                        }
+                } else {
+                    postValue(Resource.Error(uidTask.exception!!.message.toString()))
+                }
+            } else {
+                postValue(Resource.Error(uidTask.exception!!.message.toString()))
+            }
+        }
+    }
+
 }
+
+

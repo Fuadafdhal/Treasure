@@ -1,5 +1,6 @@
 package com.afdhal_fa.treasure.view.account
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,6 +22,11 @@ import kotlinx.android.synthetic.main.app_bar.view.*
 class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
     lateinit var binding: FragmentAccountBinding
     lateinit var userid: String
+
+    companion object {
+        const val INTENT_EXTRA_RESULT = "extra_result_code_200"
+        const val INTENT_CODE_REQUEST = 100
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,10 +86,11 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
                         binding.buttonEdit.visibility = View.VISIBLE
 
                         binding.buttonEdit.setOnClickListener { view ->
-                            startActivity(
+                            startActivityForResult(
                                 Intent(this.context, EditProfileActivity::class.java).apply {
                                     putExtra(EXTRA_USER_DATA, it.data)
-                                })
+                                }, INTENT_CODE_REQUEST
+                            )
                         }
                     }
                 }
@@ -122,13 +129,22 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
         })
     }
 
-    override fun setToolbar(): Toolbar {
-        binding.includeAppbar.textTitleToolbar.text = getString(R.string.title_account)
-        return binding.includeAppbar.toolbar
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == INTENT_CODE_REQUEST && resultCode == RESULT_OK && data != null) {
+            if (data.getBooleanExtra(INTENT_EXTRA_RESULT, false)) {
+                setUserData()
+            }
+        }
     }
 
     override fun initViewModel(): AccountViewModel {
         return ViewModelProvider(this)[AccountViewModel::class.java]
+    }
+
+    override fun setToolbar(): Toolbar {
+        binding.includeAppbar.textTitleToolbar.text = getString(R.string.title_account)
+        return binding.includeAppbar.toolbar
     }
 
     private fun updateUI(boolean: Boolean) {

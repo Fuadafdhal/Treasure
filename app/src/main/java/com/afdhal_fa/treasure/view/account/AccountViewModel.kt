@@ -6,7 +6,7 @@ import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.TreasureUser
 import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.network.AuthRepository
-import com.afdhal_fa.treasure.core.network.FirestoreRepository
+import com.afdhal_fa.treasure.core.network.FirestoreRepositoryAccount
 
 class AccountViewModel : ViewModel() {
 
@@ -18,7 +18,8 @@ class AccountViewModel : ViewModel() {
 
 
     fun getTreasureUserData(uid: String): LiveData<Resource<TreasureUser>> =
-        FirestoreRepository.viewTreasureUser(uid)
+        FirestoreRepositoryAccount.viewTreasureUserInFirestore(uid)
 
-    fun getUserData(uid: String): LiveData<Resource<User>> = FirestoreRepository.viewUser(uid)
+    fun getUserData(uid: String): LiveData<Resource<User>> =
+        FirestoreRepositoryAccount.viewUserInFirestore(uid)
 }
