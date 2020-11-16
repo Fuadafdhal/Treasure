@@ -1,180 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F8F8F8"
-    tools:context=".view.account.edit_profile.MainEditProfile">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include
-        android:id="@+id/includeAppbar"
-        layout="@layout/app_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageProfile"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="44dp"
-        android:elevation="2dp"
-        android:src="@mipmap/ic_launcher"
-        app:civ_border_color="@android:color/white"
-        app:civ_border_width="2.5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/includeAppbar" />
-
-    <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginEnd="35dp"
-        android:fontFamily="@font/sf_pro_display_light"
-        android:includeFontPadding="false"
-        android:padding="0dp"
-        android:text="Edit Gambar"
-        android:textAllCaps="false"
-        android:textColor="@color/colorTextButton1"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageProfile" />
-
-    <View
-        android:id="@+id/line"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="32dp"
-        android:background="@color/colorTextHintLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
+        android:layout_height="match_parent"
+        android:background="#F8F8F8"
+        tools:context=".view.account.edit_profile.EditProfileActivity">
+
+        <include
+            android:id="@+id/includeAppbar"
+            layout="@layout/app_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="44dp"
+            android:elevation="2dp"
+            android:src="@mipmap/ic_launcher"
+            app:civ_border_color="@android:color/white"
+            app:civ_border_width="2.5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/includeAppbar" />
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginEnd="35dp"
+            android:fontFamily="@font/sf_pro_display_light"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="@string/text_edit_picture"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextButton1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageProfile" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/colorTextHintLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:hint="@string/prompt_name"
-        android:textColorHint="@color/colorTextHint"
-        app:boxBackgroundColor="#F8F8F8"
-        app:boxStrokeColor="@color/colorTextHint"
-        app:boxStrokeWidth="0.5dp"
-        app:boxStrokeWidthFocused="1dp"
-        app:hintTextColor="@color/colorTextHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:text="Muh Fuad Afdhal"
-            android:textColor="@android:color/black" />
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/prompt_name"
+            android:textColorHint="@color/colorTextHint"
+            app:boxBackgroundColor="#F8F8F8"
+            app:boxStrokeColor="@color/colorTextHint"
+            app:boxStrokeWidth="0.5dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:hintTextColor="@color/colorTextHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textColor="@android:color/black" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="@string/prompt_phone"
-        android:textColorHint="@color/colorTextHint"
-        app:boxBackgroundColor="#F8F8F8"
-        app:boxStrokeColor="@color/colorTextHint"
-        app:boxStrokeWidth="0.5dp"
-        app:boxStrokeWidthFocused="1dp"
-        app:hintTextColor="@color/colorTextHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldName">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:text="082292606316"
-            android:textColor="@android:color/black" />
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/prompt_phone"
+            android:textColorHint="@color/colorTextHint"
+            app:boxBackgroundColor="#F8F8F8"
+            app:boxStrokeColor="@color/colorTextHint"
+            app:boxStrokeWidth="0.5dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:hintTextColor="@color/colorTextHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textFieldName">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textColor="@android:color/black" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="@string/prompt_email"
-        android:textColorHint="@color/colorTextHint"
-        app:boxBackgroundColor="#F8F8F8"
-        app:boxStrokeColor="@color/colorTextHint"
-        app:boxStrokeWidth="0.5dp"
-        app:boxStrokeWidthFocused="1dp"
-        app:hintTextColor="@color/colorTextHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldPhone">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:text="example@gmail.com"
-            android:textColor="@android:color/black" />
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/prompt_email"
+            android:textColorHint="@color/colorTextHint"
+            app:boxBackgroundColor="#F8F8F8"
+            app:boxStrokeColor="@color/colorTextHint"
+            app:boxStrokeWidth="0.5dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:hintTextColor="@color/colorTextHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textFieldPhone">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textColor="@android:color/black" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldBirtday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="@string/prompt_birtday"
-        android:textColorHint="@color/colorTextHint"
-        app:boxBackgroundColor="#F8F8F8"
-        app:boxStrokeColor="@color/colorTextHint"
-        app:boxStrokeWidth="0.5dp"
-        app:boxStrokeWidthFocused="1dp"
-        app:hintTextColor="@color/colorTextHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldEmail">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldBirtday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:text="07 - Juli - 2000"
-            android:textColor="@android:color/black" />
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/prompt_birtday"
+            android:textColorHint="@color/colorTextHint"
+            app:boxBackgroundColor="#F8F8F8"
+            app:boxStrokeColor="@color/colorTextHint"
+            app:boxStrokeWidth="0.5dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:hintTextColor="@color/colorTextHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textFieldEmail">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textColor="@android:color/black" />
 
-    <Button
-        android:id="@+id/buttonLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="49dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="49dp"
-        android:background="@drawable/background_ractangel_radius_4dp"
-        android:fontFamily="@font/sf_pro_semibold"
-        android:text="Simpan"
-        app:backgroundTint="@color/colorTextButton2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldBirtday" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="49dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="49dp"
+            android:background="@drawable/background_ractangel_radius_4dp"
+            android:fontFamily="@font/sf_pro_semibold"
+            android:text="@string/text_button_save"
+            app:backgroundTint="@color/colorTextButton2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textFieldBirtday" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -81,6 +81,7 @@
                             android:id="@+id/buttonEdit"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
+                            android:visibility="gone"
                             android:contentDescription="@string/image_description"
                             android:src="@drawable/ic_edit"
                             app:layout_constraintBottom_toBottomOf="@+id/textName"

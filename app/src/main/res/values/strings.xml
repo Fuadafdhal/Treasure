@@ -37,6 +37,8 @@
     <string name="text_saldo">Saldo</string>
     <string name="text_total">Total</string>
     <string name="text_logout">Keluar</string>
+    <string name="text_button_save">Simpan</string>
+    <string name="text_edit_picture">Edit Gambar</string>
 
 
 </resources>

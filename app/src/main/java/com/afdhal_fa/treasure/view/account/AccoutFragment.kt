@@ -12,7 +12,10 @@ import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.databinding.FragmentAccountBinding
+import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity
+import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity.Companion.EXTRA_USER_DATA
 import com.afdhal_fa.treasure.view.login.LoginActivity
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.app_bar.view.*
 
 class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
@@ -32,7 +35,6 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
         checkIfUserIsAuthenticated()
 
         binding.buttonLogout.setOnClickListener { logOut() }
-
 
     }
 
@@ -61,6 +63,12 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
             when (it) {
                 is Resource.Success -> {
                     if (it.data != null) {
+                        Glide.with(this)
+                            .load(it.data.image)
+                            .placeholder(R.drawable.image_placeholder)
+                            .error(R.drawable.image_broken)
+                            .into(binding.imageProfile)
+
                         binding.textName.text = if (it.data.name.equals("")) "-" else it.data.name
                         binding.textPhone.text =
                             if (it.data.phoneNumber.equals("")) "-" else it.data.phoneNumber
@@ -68,6 +76,15 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
                             if (it.data.email.equals("")) "-" else it.data.email
                         binding.textBirtday.text =
                             if (it.data.birtdayDate.equals("")) "-" else it.data.birtdayDate
+
+                        binding.buttonEdit.visibility = View.VISIBLE
+
+                        binding.buttonEdit.setOnClickListener { view ->
+                            startActivity(
+                                Intent(this.context, EditProfileActivity::class.java).apply {
+                                    putExtra(EXTRA_USER_DATA, it.data)
+                                })
+                        }
                     }
                 }
                 is Resource.Error -> {

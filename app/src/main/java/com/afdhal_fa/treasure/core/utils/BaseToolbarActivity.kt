@@ -16,6 +16,12 @@ abstract class BaseToolbarActivity<viewmodel : ViewModel> : BaseActivity<viewmod
             supportActionBar?.setDisplayHomeAsUpEnabled(setToolbarButtonBack())
             supportActionBar?.setDisplayShowHomeEnabled(setToolbarIcon())
         }
+
+        if (setToolbarButtonBack()) {
+            setToolbar().setNavigationOnClickListener { onBackPressed() }
+        }
+
+
     }
 
     override fun setToolbarButtonBack(): Boolean = false

@@ -21,7 +21,7 @@
         <activity android:name=".view.exchange_status.ExchangeStatusActivity" />
         <activity android:name=".view.exchange_confirmation.ExchangeConfirmationActivity" />
         <activity android:name=".view.choose_nominal.ChoseeNominalActivity" />
-        <activity android:name=".view.account.edit_profile.MainEditProfile" />
+        <activity android:name=".view.account.edit_profile.EditProfileActivity" />
         <activity android:name=".view.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

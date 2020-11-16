@@ -15,14 +15,13 @@ buildscript {
 
     //Database
     ext.room_version = "2.2.5"
-    ext.firebaseauth_version = "20.0.0"
+    ext.firebaseauth_version = "20.0.1"
     ext.firebasecore_version = "18.0.0"
-    ext.playservicesauth_version = "18.1.0"
+    ext.playservicesauth_version = "19.0.0"
     ext.firebasefirestore_version = "22.0.0"
     ext.facebookandroidsdk_version = "5.15.3"
 
     ext._version = "2.2.5"
-
 
     ext.kotlin_coroutines_version = "1.3.9"
     ext.lifecycle_version = "2.2.0"
@@ -38,7 +37,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.2"
+        classpath "com.android.tools.build:gradle:4.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.4'
     }
