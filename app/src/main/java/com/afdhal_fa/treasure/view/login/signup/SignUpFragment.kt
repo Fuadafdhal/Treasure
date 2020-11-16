@@ -13,12 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
-import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.utils.BaseFragment
 import com.afdhal_fa.treasure.core.utils.Constants
 import com.afdhal_fa.treasure.core.utils.LoginValidate
 import com.afdhal_fa.treasure.core.utils.makeToast
+import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentSignUpBinding
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -37,7 +37,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import timber.log.Timber
 import java.util.*
 
-@Suppress("UNREACHABLE_CODE")
+@Suppress("UNREACHABLE_CODE", "COMPATIBILITY_WARNING")
 class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
     private lateinit var binding: FragmentSignUpBinding

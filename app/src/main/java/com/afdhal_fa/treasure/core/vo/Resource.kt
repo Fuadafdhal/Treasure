@@ -1,4 +1,4 @@
-package com.afdhal_fa.treasure.core.data
+package com.afdhal_fa.treasure.core.vo
 
 sealed class Resource<out T>(val data: T? = null, val message: String? = null) {
     class Success<out T>(data: T) : Resource<T>(data)

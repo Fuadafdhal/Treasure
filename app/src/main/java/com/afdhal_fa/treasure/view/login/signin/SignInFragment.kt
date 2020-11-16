@@ -10,12 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
-import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.utils.BaseFragment
 import com.afdhal_fa.treasure.core.utils.Constants.RC_SIGN_IN
 import com.afdhal_fa.treasure.core.utils.LoginValidate
 import com.afdhal_fa.treasure.core.utils.makeToast
+import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentSignInBinding
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback

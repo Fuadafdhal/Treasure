@@ -8,11 +8,11 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.afdhal_fa.treasure.R
-import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.utils.BaseToolbarActivity
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.utils.setMarginStart
+import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.ActivityMainEditProfileBinding
 import com.afdhal_fa.treasure.view.account.AccoutFragment.Companion.INTENT_EXTRA_RESULT
 import com.bumptech.glide.Glide

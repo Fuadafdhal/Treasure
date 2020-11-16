@@ -1,13 +1,13 @@
 package com.afdhal_fa.treasure.view.price
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.afdhal_fa.treasure.core.domain.model.Price
+import com.afdhal_fa.treasure.core.network.FirestoreRepositoryPrice
+import com.afdhal_fa.treasure.core.vo.Resource
 
 class PriceViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
+    fun viewPriceList(): LiveData<Resource<List<Price>>> =
+        FirestoreRepositoryPrice.viewPriceInFirestore()
 }

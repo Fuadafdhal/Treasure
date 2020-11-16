@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.afdhal_fa.treasure.R
-import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
+import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentAccountBinding
 import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity
 import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity.Companion.EXTRA_USER_DATA
@@ -20,8 +20,8 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.app_bar.view.*
 
 class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
-    lateinit var binding: FragmentAccountBinding
-    lateinit var userid: String
+    private lateinit var binding: FragmentAccountBinding
+    private lateinit var userid: String
 
     companion object {
         const val INTENT_EXTRA_RESULT = "extra_result_code_200"
@@ -108,6 +108,8 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
                     if (it.data != null) {
                         binding.textLevelStatus.text =
                             if (it.data.level == 0) "-" else it.data.level.toString()
+
+                        //TODO : Change to price convert
                         binding.textSaldoStatus.text =
                             if (it.data.saldo == 0L) "-" else it.data.saldo.toString()
                         binding.textTrashStatus.text =

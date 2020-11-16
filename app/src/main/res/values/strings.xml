@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Treasure</string>
 
-    <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Beranda</string>
     <string name="title_exchange">Penukaran</string>
     <string name="title_scan">Scan</string>
     <string name="title_price">Harga</string>
     <string name="title_account">Akun</string>
     <string name="title_edit_profile">Edit Profile</string>
+    <string name="title_price_trash">Harga sampah</string>
 
 
     <string name="image_description">image</string>
@@ -39,8 +39,18 @@
     <string name="text_saldo">Saldo</string>
     <string name="text_total">Total</string>
     <string name="text_logout">Keluar</string>
+
+    <!--    EditProfileActiviy-->
     <string name="text_button_save">Simpan</string>
     <string name="text_edit_picture">Edit Gambar</string>
+
+    <!--    HomeFragment-->
+    <string name="text_waller">Dompet</string>
+    <string name="text_level_home">Level :</string>
+    <string name="text_trashbag_home">Trashbag :</string>
+    <string name="text_deposit">Setoran</string>
+    <string name="text_see_more">Lihat Semua</string>
+    <string name="text_tips">Tips</string>
 
 
 </resources>

@@ -2,9 +2,9 @@ package com.afdhal_fa.treasure.core.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.TreasureUser
 import com.afdhal_fa.treasure.core.domain.model.User
+import com.afdhal_fa.treasure.core.vo.Resource
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
@@ -51,9 +51,9 @@ object FirestoreRepositoryAccount {
         return MutableLiveData<Resource<TreasureUser>>().apply {
             treasureUserRef
                 .get()
-                .addOnCompleteListener { uidTask ->
-                    if (uidTask.isSuccessful) {
-                        for (i in uidTask.result?.documents!!) {
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        for (i in task.result?.documents!!) {
                             val mTreasureUser = i.toObject(TreasureUser::class.java) as TreasureUser
                             if (mTreasureUser.uid.equals(userid)) {
                                 postValue(Resource.Success(mTreasureUser))
@@ -62,7 +62,7 @@ object FirestoreRepositoryAccount {
                             }
                         }
                     } else {
-                        postValue(Resource.Error(uidTask.exception!!.message.toString()))
+                        postValue(Resource.Error(task.exception!!.message.toString()))
                     }
                 }
         }

@@ -2,8 +2,8 @@ package com.afdhal_fa.treasure.core.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.afdhal_fa.treasure.core.data.Resource
 import com.afdhal_fa.treasure.core.domain.model.User
+import com.afdhal_fa.treasure.core.vo.Resource
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
