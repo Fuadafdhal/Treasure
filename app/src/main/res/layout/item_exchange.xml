@@ -20,14 +20,14 @@
 
         <ImageView
             android:id="@+id/imageExchangeType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="54dp"
+            android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/image_description"
-            android:src="@drawable/ic_left_arrow_up"
+            tools:src="@drawable/ic_ponsel"
             app:layout_constraintBottom_toTopOf="@+id/line"
             app:layout_constraintEnd_toStartOf="@+id/textTitleExchangeType"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:text="082292606316"
+                    tools:text="082292606316"
                     android:textColor="@android:color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -114,7 +114,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:hint="@string/prompt_phone"
+                android:hint="@string/prompt_nominal"
                 android:textColorHint="@color/colorTextHint"
                 app:boxBackgroundColor="@android:color/white"
                 app:boxStrokeColor="@android:color/white"
@@ -132,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:text="Rp. 5000"
+                    tools:text="Rp. 5000"
                     android:textColor="@android:color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -144,7 +144,7 @@
                 android:layout_marginStart="33dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/sf_pro_regular"
-                android:text="Harga"
+                android:text="@string/title_price"
                 android:textColor="@color/colorTextHint"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -157,7 +157,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="33dp"
                 android:fontFamily="@font/sf_pro_regular"
-                android:text="Rp. 6000"
+                tools:text="Rp. 6000"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -173,7 +173,7 @@
                 android:layout_marginBottom="18dp"
                 android:background="@drawable/background_ractangel_radius_4dp"
                 android:fontFamily="@font/sf_pro_semibold"
-                android:text="Tukar"
+                android:text="@string/text_change"
                 app:backgroundTint="@color/colorTextButton2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -1,21 +1,23 @@
 package com.afdhal_fa.treasure.view.exchange
 
-import android.content.Intent
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.afdhal_fa.treasure.R
-import com.afdhal_fa.treasure.view.choose_nominal.ChoseeNominalActivity
+import com.afdhal_fa.treasure.core.domain.model.ExchangeMetode
 import kotlinx.android.synthetic.main.item_exchange.view.*
 import java.util.*
 
 class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
-    private var listData = ArrayList<String>()
+    private var listData = ArrayList<ExchangeMetode>()
 
-    fun setData(newListData: List<String>?) {
+    var onItemClick: ((ExchangeMetode) -> Unit)? = null
+
+    fun setData(newListData: List<ExchangeMetode>?) {
         if (newListData != null) {
             listData.clear()
             listData.addAll(newListData)
@@ -36,9 +38,14 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
 
     inner class VHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun onBind(data: String) {
+        fun onBind(mExchangeMetode: ExchangeMetode) {
             with(itemView) {
-                textTitleExchangeType.text = data
+                textTitleExchangeType.text = mExchangeMetode.title
+                imageExchangeType.load(mExchangeMetode.icon) {
+                    crossfade(true)
+                    crossfade(500)
+                }
+
                 buttonExpandItem.setOnClickListener {
                     if (layoutFormExchange.visibility == View.GONE) {
                         TransitionManager.beginDelayedTransition(container, AutoTransition())
@@ -49,14 +56,13 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                         buttonExpandItem.setImageResource(R.drawable.ic_left_arrow_down)
                     }
                 }
+            }
+        }
 
+        init {
+            with(itemView) {
                 textFieldNominal.setEndIconOnClickListener {
-                    itemView.context.startActivity(
-                        Intent(
-                            itemView.context,
-                            ChoseeNominalActivity::class.java
-                        )
-                    )
+                    onItemClick?.invoke(listData[adapterPosition])
                 }
             }
         }

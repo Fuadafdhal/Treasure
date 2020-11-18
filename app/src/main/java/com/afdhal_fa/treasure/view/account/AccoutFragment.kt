@@ -25,7 +25,7 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
 
     companion object {
         const val INTENT_EXTRA_RESULT = "extra_result_code_200"
-        const val INTENT_CODE_REQUEST = 100
+        const val INTENT_REQUEST_CODE_EDIT_PROFILE = 100
     }
 
     override fun onCreateView(
@@ -89,7 +89,7 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
                             startActivityForResult(
                                 Intent(this.context, EditProfileActivity::class.java).apply {
                                     putExtra(EXTRA_USER_DATA, it.data)
-                                }, INTENT_CODE_REQUEST
+                                }, INTENT_REQUEST_CODE_EDIT_PROFILE
                             )
                         }
                     }
@@ -133,7 +133,7 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == INTENT_CODE_REQUEST && resultCode == RESULT_OK && data != null) {
+        if (requestCode == INTENT_REQUEST_CODE_EDIT_PROFILE && resultCode == RESULT_OK && data != null) {
             if (data.getBooleanExtra(INTENT_EXTRA_RESULT, false)) {
                 setUserData()
             }

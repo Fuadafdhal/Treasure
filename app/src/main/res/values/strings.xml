@@ -8,6 +8,7 @@
     <string name="title_account">Akun</string>
     <string name="title_edit_profile">Edit Profile</string>
     <string name="title_price_trash">Harga sampah</string>
+    <string name="title_nominal">Nominal</string>
 
 
     <string name="image_description">image</string>
@@ -51,6 +52,10 @@
     <string name="text_deposit">Setoran</string>
     <string name="text_see_more">Lihat Semua</string>
     <string name="text_tips">Tips</string>
+
+    <!--    ItemExchange-->
+    <string name="text_change">Tukar</string>
+    <string name="prompt_nominal">Nominal</string>
 
 
 </resources>
