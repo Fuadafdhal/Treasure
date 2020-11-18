@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
+import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentHomeBinding
 import com.afdhal_fa.treasure.view.home.notification.NotificationActivity
@@ -87,7 +88,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
                         binding.textLevel.text =
                             if (it.data.level == 0) "-" else it.data.level.toString()
                         binding.textSaldo.text =
-                            if (it.data.saldo == 0L) "-" else it.data.saldo.toString()
+                            if (it.data.saldo == 0L) "-" else it.data.saldo.toInt().toRupiah()
                     }
                 }
                 is Resource.Error -> {

@@ -15,5 +15,4 @@ class NominalViewModel : ViewModel() {
             items.add(Nominal(10000, 11000))
             postValue(items)
         }
-
 }

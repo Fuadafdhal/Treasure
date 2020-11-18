@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.Nominal
+import com.afdhal_fa.treasure.core.utils.toRupiah
 import kotlinx.android.synthetic.main.item_nominal.view.*
 import org.difcool.aksirelawan.base.BaseRecyclerViewAdapter
 
@@ -21,8 +22,9 @@ class NominalAdapter : BaseRecyclerViewAdapter<NominalAdapter.VHolder, Nominal>(
     inner class VHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(nominal: Nominal) {
             with(itemView) {
-                textNominal.text = String.format("%s", nominal.nominal)
-                textTotalNominal.text = String.format("Rp. %s", nominal.totalNominal)
+                textNominal.text =
+                    nominal.nominal.toRupiah().substring(2, nominal.nominal.toRupiah().length)
+                textTotalNominal.text = nominal.totalNominal.toRupiah()
             }
         }
 

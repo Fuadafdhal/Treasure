@@ -5,6 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Nominal(
-    val nominal: Int,
-    val totalNominal: Int
+    val nominal: Int = 0,
+    val totalNominal: Int = 0
 ) : Parcelable

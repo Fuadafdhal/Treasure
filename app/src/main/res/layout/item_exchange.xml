@@ -21,13 +21,13 @@
         <ImageView
             android:id="@+id/imageExchangeType"
             android:layout_width="54dp"
-            android:layout_height="50dp"
+            android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/image_description"
-            tools:src="@drawable/ic_ponsel"
+            tools:src="@drawable/logo_linkaja"
             app:layout_constraintBottom_toTopOf="@+id/line"
             app:layout_constraintEnd_toStartOf="@+id/textTitleExchangeType"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +99,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
                     tools:text="082292606316"
                     android:textColor="@android:color/black" />
 
@@ -120,18 +119,22 @@
                 app:boxStrokeColor="@android:color/white"
                 app:boxStrokeWidth="0.5dp"
                 app:endIconMode="custom"
+                app:helperTextEnabled="true"
                 app:boxStrokeWidthFocused="1dp"
                 app:endIconTint="#C4C4C4"
                 app:endIconDrawable="@drawable/ic_left_arrow_down"
                 app:hintTextColor="@color/colorTextHint"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:helperTextTextColor="@color/design_default_color_error"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textFieldPhone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
+                    android:maxLength="11"
+
                     tools:text="Rp. 5000"
                     android:textColor="@android:color/black" />
 

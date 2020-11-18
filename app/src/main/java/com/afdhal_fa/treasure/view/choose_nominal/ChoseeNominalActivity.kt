@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarActivity
-import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.databinding.ActivityChoseeNominalBinding
 import com.afdhal_fa.treasure.view.exchange.ExchangeFragment
+import com.afdhal_fa.treasure.view.exchange.ExchangeFragment.Companion.INTENT_RESUTL_EXTRA_POSITION
+import kotlinx.android.synthetic.main.app_bar.view.*
 
 class ChoseeNominalActivity : BaseToolbarActivity<NominalViewModel>() {
 
@@ -24,12 +25,16 @@ class ChoseeNominalActivity : BaseToolbarActivity<NominalViewModel>() {
 
         viewmodel.getNominal().observe(this, {
             nominalAdapter.setItem(it)
+            binding.rvNominal.adapter = nominalAdapter
         })
 
         nominalAdapter.onItemClick = { select ->
-            makeToast(select.nominal.toString())
             val mIntent = Intent().apply {
                 putExtra(ExchangeFragment.INTENT_RESUTL_EXTRA_NOMINAL, select)
+                putExtra(
+                    INTENT_RESUTL_EXTRA_POSITION,
+                    intent.getIntExtra(INTENT_RESUTL_EXTRA_POSITION, 0)
+                )
             }
             setResult(RESULT_OK, mIntent)
             finish()
@@ -42,9 +47,12 @@ class ChoseeNominalActivity : BaseToolbarActivity<NominalViewModel>() {
     }
 
     override fun setToolbar(): Toolbar {
-        binding.textTitleToolbar.text = getString(R.string.title_nominal)
-        return binding.toolbar
+        binding.includeAppbar.textTitleToolbar.text = getString(R.string.title_nominal)
+        binding.includeAppbar.toolbar.setNavigationIcon(R.drawable.ic_close)
+        return binding.includeAppbar.toolbar
     }
+
+    override fun setToolbarButtonBack() = true
 
     override fun initViewModel(): NominalViewModel {
         return ViewModelProvider(this)[NominalViewModel::class.java]

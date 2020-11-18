@@ -6,19 +6,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.ExchangeMetode
-import com.afdhal_fa.treasure.core.utils.BaseFragment
+import com.afdhal_fa.treasure.core.domain.model.Nominal
+import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
+import com.afdhal_fa.treasure.core.utils.makeToast
+import com.afdhal_fa.treasure.core.utils.toRupiah
+import com.afdhal_fa.treasure.databinding.FragmentExchangeBinding
 import com.afdhal_fa.treasure.view.choose_nominal.ChoseeNominalActivity
-import kotlinx.android.synthetic.main.fragment_exchange.*
+import kotlinx.android.synthetic.main.app_bar.view.*
 import java.util.*
 
-class ExchangeFragment : BaseFragment<ExchangeViewModel>() {
+class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
+    private lateinit var binding: FragmentExchangeBinding
+    private lateinit var exchangeAdapter: ExchangeAdapter
+
     companion object {
         const val INTENT_REQUEST_CODE_NOMINAL = 100
         const val INTENT_RESUTL_EXTRA_NOMINAL = "extra_result_nominal"
+        const val INTENT_RESUTL_EXTRA_POSITION = "extra_result_position"
     }
 
     override fun onCreateView(
@@ -26,7 +35,8 @@ class ExchangeFragment : BaseFragment<ExchangeViewModel>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_exchange, container, false)
+        binding = FragmentExchangeBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,22 +44,25 @@ class ExchangeFragment : BaseFragment<ExchangeViewModel>() {
 
         if (activity != null) {
 
-            val exchangeAdapter = ExchangeAdapter()
+            exchangeAdapter = ExchangeAdapter()
 
             exchangeAdapter.onItemClick = { selectedData ->
                 startActivityForResult(
-                    Intent(activity, ChoseeNominalActivity::class.java), INTENT_REQUEST_CODE_NOMINAL
+                    Intent(activity, ChoseeNominalActivity::class.java).putExtra(
+                        INTENT_RESUTL_EXTRA_POSITION,
+                        selectedData.position
+                    ), INTENT_REQUEST_CODE_NOMINAL
                 )
             }
 
             val listData = ArrayList<ExchangeMetode>()
-            listData.add(ExchangeMetode(R.drawable.ic_ponsel, "Pulsa"))
-            listData.add(ExchangeMetode(R.drawable.logo_linkaja, "Link Aja"))
-            listData.add(ExchangeMetode(R.drawable.logo_dana, "Dana"))
+            listData.add(ExchangeMetode(0, R.drawable.ic_ponsel, "Pulsa"))
+            listData.add(ExchangeMetode(1, R.drawable.logo_linkaja, "Link Aja"))
+            listData.add(ExchangeMetode(2, R.drawable.logo_dana, "Dana"))
 
             exchangeAdapter.setData(listData)
 
-            with(rvExchange) {
+            with(binding.rvExchange) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
                 adapter = exchangeAdapter
@@ -65,7 +78,17 @@ class ExchangeFragment : BaseFragment<ExchangeViewModel>() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == INTENT_REQUEST_CODE_NOMINAL && resultCode == RESULT_OK && data != null) {
-            TODO()
+            val resultData = data.getParcelableExtra<Nominal>(INTENT_RESUTL_EXTRA_NOMINAL)
+            val resultPosition = data.getIntExtra(INTENT_RESUTL_EXTRA_POSITION, 0)
+            resultData?.let {
+                context?.makeToast(it.totalNominal.toRupiah())
+                exchangeAdapter.setNominal(it, resultPosition)
+            }
         }
+    }
+
+    override fun setToolbar(): Toolbar {
+        binding.includeAppbar.textTitleToolbar.text = getString(R.string.title_exchange)
+        return binding.includeAppbar.toolbar
     }
 }
