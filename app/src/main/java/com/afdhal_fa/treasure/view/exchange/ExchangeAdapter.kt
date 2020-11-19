@@ -14,8 +14,10 @@ import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.Exchange
 import com.afdhal_fa.treasure.core.domain.model.ExchangeMetode
 import com.afdhal_fa.treasure.core.domain.model.Nominal
+import com.afdhal_fa.treasure.core.domain.model.User
 import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.core.utils.toRupiahUnFormat
+import com.afdhal_fa.treasure.core.utils.toRupiahUnFormatRupiah
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.item_exchange.view.*
 import java.util.*
@@ -24,15 +26,14 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
     private var listData = ArrayList<ExchangeMetode>()
 
     private lateinit var mNominal: Nominal
-    private lateinit var mExchange: Exchange
+    private lateinit var mUser: User
 
     init {
         mNominal = Nominal()
-        mExchange = Exchange()
+        mUser = User()
     }
 
     var onItemClick: ((ExchangeMetode) -> Unit)? = null
-    var onExchangeClick: ((Exchange) -> Unit)? = null
 
     fun setData(newListData: List<ExchangeMetode>?) {
         if (newListData != null) {
@@ -47,23 +48,28 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
         notifyItemChanged(position)
     }
 
+    fun setUser(user: User) {
+        this.mUser = user
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_exchange, parent, false)
     )
 
     override fun onBindViewHolder(holder: VHolder, position: Int) {
-        val data = listData[position]
-        holder.onBind(data)
+        holder.onBind(listData[position])
+        holder.onExchangeClik(listData[position], mUser)
     }
 
     override fun getItemCount() = listData.size
 
     inner class VHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun onBind(mExchangeMetode: ExchangeMetode) {
-            var nominal: Int = 0
-            with(itemView) {
+        private var nominal: Int = 0
 
+        fun onBind(mExchangeMetode: ExchangeMetode) {
+
+            with(itemView) {
                 setNominalEditText(textFieldNominal, textPrice)
 
                 layoutFormExchange.visibility = View.GONE
@@ -102,17 +108,78 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
             }
         }
 
+        fun onExchangeClik(mExchangeMetode: ExchangeMetode, mUser: User) {
+            itemView.setOnClickListener {
+                val textPhoneNumber = itemView.textFieldPhone.editText?.text.toString().trim()
+                val textNominal = itemView.textFieldNominal.editText?.text.toString().trim()
+                if (validate(textPhoneNumber, textNominal)) {
+                    val nominal = textNominal
+                        .toRupiahUnFormat()
+                        .toRupiahUnFormatRupiah()
+                        .toInt()
+
+                    val mExchange = Exchange(
+                        "",
+                        type = mExchangeMetode.title,
+                        phoneNumber = textPhoneNumber,
+                        nominal = nominal,
+                        totalNominal = nominal.plus(1000),
+                        mUser.uid
+                    )
+
+                    println(mExchange)
+                }
+            }
+        }
+
         init {
             with(itemView) {
                 textFieldNominal.setEndIconOnClickListener {
                     onItemClick?.invoke(listData[adapterPosition])
                 }
+            }
+        }
 
-                buttonExchange.setOnClickListener {
-                    onExchangeClick?.invoke(mExchange)
+        private fun validate(phoneNumber: String, nominal: String): Boolean {
+            if (phoneNumber.isEmpty()) {
+                setErrorPhone("Nomor Telpon tidak boleh Kosong")
+            } else {
+                setErrorPhone(null)
+            }
+            if (nominal.isEmpty()) {
+                setErrorPhone("Minimal Rp1.000")
+            } else {
+                setErrorPhone(null)
+            }
+
+            return true
+        }
+
+        private fun setErrorPhone(err: String?) {
+            with(itemView) {
+                if (err != null) {
+                    textFieldPhone.isErrorEnabled = true
+                    textFieldPhone.helperText = err
+                } else {
+                    textFieldPhone.isErrorEnabled = false
+                    textFieldPhone.helperText = null
                 }
             }
         }
+
+        private fun setErrorNominal(err: String?) {
+            with(itemView) {
+                if (err != null) {
+                    textFieldNominal.isErrorEnabled = true
+                    textFieldNominal.helperText = err
+                } else {
+                    textFieldNominal.isErrorEnabled = false
+                    textFieldNominal.helperText = null
+                }
+            }
+        }
+
+
     }
 
     private fun setNominalEditText(textFieldNominal: TextInputLayout, textPrice: TextView) {
@@ -127,9 +194,11 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                     if (s.toString() != "") {
                         textFieldNominal.editText?.removeTextChangedListener(this)
 
-                        val sNonFormat = s.toString().toRupiahUnFormat()
+                        var sNonFormat = s.toString()
+                        sNonFormat = sNonFormat.toRupiahUnFormat()
                         if (!sNonFormat.equals("")) {
-                            val formatted = sNonFormat.toInt().toRupiah()
+                            var formatted = sNonFormat.toInt().toRupiah()
+                            formatted = formatted.toRupiahUnFormatRupiah()
                             current = formatted
                             textFieldNominal.editText?.setText(formatted)
                             textFieldNominal.editText?.setSelection(formatted.length)
@@ -169,4 +238,5 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
             }
         })
     }
+
 }

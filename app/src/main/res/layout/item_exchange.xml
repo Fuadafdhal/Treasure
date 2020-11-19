@@ -14,8 +14,8 @@
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
         android:id="@+id/layoutSubContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -27,11 +27,11 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/image_description"
-            tools:src="@drawable/logo_linkaja"
             app:layout_constraintBottom_toTopOf="@+id/line"
             app:layout_constraintEnd_toStartOf="@+id/textTitleExchangeType"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo_linkaja" />
 
         <TextView
             android:id="@+id/textTitleExchangeType"
@@ -89,8 +89,10 @@
                 app:boxBackgroundColor="@android:color/white"
                 app:boxStrokeColor="@android:color/white"
                 app:boxStrokeWidth="0.5dp"
-                app:endIconMode="custom"
                 app:boxStrokeWidthFocused="1dp"
+                app:endIconMode="custom"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/design_default_color_error"
                 app:hintTextColor="@color/colorTextHint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -100,8 +102,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    tools:text="082292606316"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    tools:text="082292606316" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,14 +120,14 @@
                 app:boxBackgroundColor="@android:color/white"
                 app:boxStrokeColor="@android:color/white"
                 app:boxStrokeWidth="0.5dp"
-                app:endIconMode="custom"
-                app:helperTextEnabled="true"
                 app:boxStrokeWidthFocused="1dp"
-                app:endIconTint="#C4C4C4"
                 app:endIconDrawable="@drawable/ic_left_arrow_down"
+                app:endIconMode="custom"
+                app:endIconTint="#C4C4C4"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/design_default_color_error"
                 app:hintTextColor="@color/colorTextHint"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:helperTextTextColor="@color/design_default_color_error"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textFieldPhone">
 
@@ -135,8 +137,8 @@
                     android:inputType="number"
                     android:maxLength="11"
 
-                    tools:text="Rp. 5000"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    tools:text="Rp. 5000" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,11 +162,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="33dp"
                 android:fontFamily="@font/sf_pro_regular"
-                tools:text="Rp. 6000"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textFieldNominal" />
+                app:layout_constraintTop_toBottomOf="@+id/textFieldNominal"
+                tools:text="Rp. 6000" />
 
             <Button
                 android:id="@+id/buttonExchange"

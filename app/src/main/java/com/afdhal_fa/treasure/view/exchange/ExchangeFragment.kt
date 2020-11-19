@@ -10,15 +10,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afdhal_fa.treasure.R
-import com.afdhal_fa.treasure.core.domain.model.ExchangeMetode
 import com.afdhal_fa.treasure.core.domain.model.Nominal
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
-import com.afdhal_fa.treasure.core.utils.toRupiah
+import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentExchangeBinding
 import com.afdhal_fa.treasure.view.choose_nominal.ChoseeNominalActivity
-import kotlinx.android.synthetic.main.app_bar.view.*
-import java.util.*
+import com.afdhal_fa.treasure.view.login.LoginActivity
 
 class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
     private lateinit var binding: FragmentExchangeBinding
@@ -43,30 +41,51 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-
             exchangeAdapter = ExchangeAdapter()
+            checkIfUserIsAuthenticated()
 
             exchangeAdapter.onItemClick = { selectedData ->
                 startActivityForResult(
-                    Intent(activity, ChoseeNominalActivity::class.java).putExtra(
-                        INTENT_RESUTL_EXTRA_POSITION,
-                        selectedData.position
-                    ), INTENT_REQUEST_CODE_NOMINAL
+                    Intent(activity, ChoseeNominalActivity::class.java)
+                        .putExtra(INTENT_RESUTL_EXTRA_POSITION, selectedData.position),
+                    INTENT_REQUEST_CODE_NOMINAL
                 )
             }
 
-            val listData = ArrayList<ExchangeMetode>()
-            listData.add(ExchangeMetode(0, R.drawable.ic_ponsel, "Pulsa"))
-            listData.add(ExchangeMetode(1, R.drawable.logo_linkaja, "Link Aja"))
-            listData.add(ExchangeMetode(2, R.drawable.logo_dana, "Dana"))
-
-            exchangeAdapter.setData(listData)
+            viewmodel.exchangeMetode().observe(viewLifecycleOwner, {
+                exchangeAdapter.setData(it)
+            })
 
             with(binding.rvExchange) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
                 adapter = exchangeAdapter
             }
+        }
+
+    }
+
+    private fun checkIfUserIsAuthenticated() {
+        viewmodel.checkIfUserIsAuthenticated().observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Success -> {
+                    if (it.data?.isAuthenticated!!) {
+                        exchangeAdapter.setUser(it.data)
+                    }
+                }
+                is Resource.Error -> {
+                    context?.makeToast("Error")
+                    if (!it.data?.isAuthenticated!!) {
+                        updateUI(it.data.isAuthenticated)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun updateUI(boolean: Boolean) {
+        if (boolean) {
+            startActivity(Intent(this.context, LoginActivity::class.java))
         }
     }
 
@@ -81,7 +100,6 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
             val resultData = data.getParcelableExtra<Nominal>(INTENT_RESUTL_EXTRA_NOMINAL)
             val resultPosition = data.getIntExtra(INTENT_RESUTL_EXTRA_POSITION, 0)
             resultData?.let {
-                context?.makeToast(it.totalNominal.toRupiah())
                 exchangeAdapter.setNominal(it, resultPosition)
             }
         }

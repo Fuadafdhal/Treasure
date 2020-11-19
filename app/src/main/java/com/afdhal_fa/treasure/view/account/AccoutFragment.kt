@@ -17,10 +17,11 @@ import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity
 import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity.Companion.EXTRA_USER_DATA
 import com.afdhal_fa.treasure.view.login.LoginActivity
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.app_bar.view.*
 
 class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
-    private lateinit var binding: FragmentAccountBinding
+    private var _binding: FragmentAccountBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var userid: String
 
     companion object {
@@ -32,7 +33,7 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAccountBinding.inflate(layoutInflater)
+        _binding = FragmentAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -153,6 +154,11 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
         if (boolean) {
             startActivity(Intent(this.context, LoginActivity::class.java))
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }

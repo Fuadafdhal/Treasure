@@ -27,6 +27,10 @@ fun String.toRupiahUnFormat(): String {
     return this.replace("Rp".toRegex(), "").replace("""[.]""".toRegex(), "")
 }
 
+fun String.toRupiahUnFormatRupiah(): String {
+    return this.substring(0, this.length - 3)
+}
+
 //fun Int.length() = when(this) {
 //    0 -> 1
 //    else -> log10(abs(toDouble())).toInt() + 1

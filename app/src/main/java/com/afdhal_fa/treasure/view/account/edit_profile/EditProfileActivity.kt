@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.User
@@ -16,7 +15,6 @@ import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.ActivityMainEditProfileBinding
 import com.afdhal_fa.treasure.view.account.AccoutFragment.Companion.INTENT_EXTRA_RESULT
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.app_bar.view.*
 import timber.log.Timber
 
 
@@ -32,7 +30,8 @@ class EditProfileActivity : BaseToolbarActivity<EditProfileViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main_edit_profile)
+        binding = ActivityMainEditProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         intent.getParcelableExtra<User>(EXTRA_USER_DATA)?.let {
             uid = it.uid

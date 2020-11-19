@@ -3,7 +3,6 @@ package com.afdhal_fa.treasure.view.choose_nominal
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afdhal_fa.treasure.R
@@ -11,7 +10,6 @@ import com.afdhal_fa.treasure.core.utils.BaseToolbarActivity
 import com.afdhal_fa.treasure.databinding.ActivityChoseeNominalBinding
 import com.afdhal_fa.treasure.view.exchange.ExchangeFragment
 import com.afdhal_fa.treasure.view.exchange.ExchangeFragment.Companion.INTENT_RESUTL_EXTRA_POSITION
-import kotlinx.android.synthetic.main.app_bar.view.*
 
 class ChoseeNominalActivity : BaseToolbarActivity<NominalViewModel>() {
 
@@ -19,7 +17,8 @@ class ChoseeNominalActivity : BaseToolbarActivity<NominalViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_chosee_nominal)
+        binding = ActivityChoseeNominalBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val nominalAdapter = NominalAdapter()
 
