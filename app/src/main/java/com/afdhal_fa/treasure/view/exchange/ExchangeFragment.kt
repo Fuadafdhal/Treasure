@@ -16,6 +16,7 @@ import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentExchangeBinding
 import com.afdhal_fa.treasure.view.choose_nominal.ChoseeNominalActivity
+import com.afdhal_fa.treasure.view.exchange_confirmation.ExchangeConfirmationActivity
 import com.afdhal_fa.treasure.view.login.LoginActivity
 
 class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
@@ -51,6 +52,14 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
                     INTENT_REQUEST_CODE_NOMINAL
                 )
             }
+            exchangeAdapter.onExchangeClick = { resultData ->
+                startActivity(
+                    Intent(activity, ExchangeConfirmationActivity::class.java)
+                        .putExtra(INTENT_RESUTL_EXTRA_POSITION, resultData)
+                )
+            }
+
+
 
             viewmodel.exchangeMetode().observe(viewLifecycleOwner, {
                 exchangeAdapter.setData(it)

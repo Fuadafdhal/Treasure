@@ -56,6 +56,8 @@
     <!--    ItemExchange-->
     <string name="text_change">Tukar</string>
     <string name="prompt_nominal">Nominal</string>
+    <string name="text_service_type">Jenis Layanan</string>
+    <string name="text_title_number">Nomor</string>
 
 
 </resources>

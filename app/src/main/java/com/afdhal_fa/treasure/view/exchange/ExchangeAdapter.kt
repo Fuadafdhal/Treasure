@@ -15,10 +15,8 @@ import com.afdhal_fa.treasure.core.domain.model.Exchange
 import com.afdhal_fa.treasure.core.domain.model.ExchangeMetode
 import com.afdhal_fa.treasure.core.domain.model.Nominal
 import com.afdhal_fa.treasure.core.domain.model.User
-import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.core.utils.toRupiahUnFormat
-import com.afdhal_fa.treasure.core.utils.toRupiahUnFormatRupiah
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.item_exchange.view.*
 import java.util.*
@@ -35,6 +33,7 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
     }
 
     var onItemClick: ((ExchangeMetode) -> Unit)? = null
+    var onExchangeClick: ((Exchange) -> Unit)? = null
 
     fun setData(newListData: List<ExchangeMetode>?) {
         if (newListData != null) {
@@ -119,9 +118,9 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                         layoutFormExchange.visibility = View.VISIBLE
                         buttonExpandItem.setImageResource(R.drawable.ic_left_arrow_up)
                         textFieldNominal.editText?.setText(
-                            it.nominal.toRupiah().toRupiahUnFormatRupiah()
+                            it.nominal.toRupiah()
                         )
-                        textPrice.text = it.totalNominal.toRupiah().toRupiahUnFormatRupiah()
+                        textPrice.text = it.totalNominal.toRupiah()
                     }
                 }
             }
@@ -139,11 +138,11 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                         phoneNumber = textPhoneNumber,
                         nominal = nominal,
                         totalNominal = nominal.plus(1000),
-                        mUser.uid
+                        exchangeUId = mUser.uid
                     )
-
-                    it.context.makeToast(mExchange.toString())
+                    onExchangeClick?.invoke(mExchange)
                 }
+
             }
         }
 
@@ -225,8 +224,7 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                         var sNonFormat = s.toString()
                         sNonFormat = sNonFormat.toRupiahUnFormat()
                         if (!sNonFormat.equals("")) {
-                            var formatted = sNonFormat.toInt().toRupiah()
-                            formatted = formatted.toRupiahUnFormatRupiah()
+                            val formatted = sNonFormat.toInt().toRupiah()
                             current = formatted
                             textFieldNominal.editText?.setText(formatted)
                             textFieldNominal.editText?.setSelection(formatted.length)
@@ -260,8 +258,7 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                     if (sNonFormat.toInt() > 999 && sNonFormat.toInt() % 1000 == 0) {
                         textFieldNominal.isErrorEnabled = false
                         textFieldNominal.helperText = null
-                        textPrice.text =
-                            sNonFormat.toInt().plus(1000).toRupiah().toRupiahUnFormatRupiah()
+                        textPrice.text = sNonFormat.toInt().plus(1000).toRupiah()
                     }
                 }
             }

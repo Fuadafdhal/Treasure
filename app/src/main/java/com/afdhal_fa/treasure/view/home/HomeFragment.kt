@@ -9,12 +9,12 @@ import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.utils.toRupiah
+import com.afdhal_fa.treasure.core.utils.ujicoba
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentHomeBinding
 import com.afdhal_fa.treasure.view.home.notification.NotificationActivity
 import com.afdhal_fa.treasure.view.home.setting.SettingActivity
 import com.afdhal_fa.treasure.view.login.LoginActivity
-import kotlinx.android.synthetic.main.app_bar.view.*
 
 class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
     private lateinit var binding: FragmentHomeBinding
@@ -34,6 +34,8 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         checkIfUserIsAuthenticated()
         setHasOptionsMenu(true)
+
+        ujicoba()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

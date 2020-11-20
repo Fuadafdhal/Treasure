@@ -23,7 +23,7 @@ class NominalAdapter : BaseRecyclerViewAdapter<NominalAdapter.VHolder, Nominal>(
         fun onBind(nominal: Nominal) {
             with(itemView) {
                 textNominal.text =
-                    nominal.nominal.toRupiah().substring(2, nominal.nominal.toRupiah().length)
+                    nominal.nominal.toRupiah().substring(3, nominal.nominal.toRupiah().length)
                 textTotalNominal.text = nominal.totalNominal.toRupiah()
             }
         }

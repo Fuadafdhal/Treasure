@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Exchange(
     val id: String = "",
     var type: String = "",
+    var serviceType: String = "",
     var phoneNumber: String = "",
     var nominal: Int = 0,
     var totalNominal: Int = 0,
