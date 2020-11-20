@@ -15,6 +15,7 @@ import com.afdhal_fa.treasure.core.domain.model.Exchange
 import com.afdhal_fa.treasure.core.domain.model.ExchangeMetode
 import com.afdhal_fa.treasure.core.domain.model.Nominal
 import com.afdhal_fa.treasure.core.domain.model.User
+import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.core.utils.toRupiahUnFormat
 import com.afdhal_fa.treasure.core.utils.toRupiahUnFormatRupiah
@@ -25,8 +26,8 @@ import java.util.*
 class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
     private var listData = ArrayList<ExchangeMetode>()
 
-    private lateinit var mNominal: Nominal
-    private lateinit var mUser: User
+    private var mNominal: Nominal
+    private var mUser: User
 
     init {
         mNominal = Nominal()
@@ -65,12 +66,13 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
 
     inner class VHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private var nominal: Int = 0
-
         fun onBind(mExchangeMetode: ExchangeMetode) {
 
             with(itemView) {
-                setNominalEditText(textFieldNominal, textPrice)
+
+                if (mNominal.nominal == 0) {
+                    setNominalEditText(textFieldNominal, textPrice)
+                }
 
                 layoutFormExchange.visibility = View.GONE
                 textTitleExchangeType.text = mExchangeMetode.title
@@ -90,34 +92,47 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                         textFieldPhone.editText?.text = null
                         textFieldNominal.editText?.text = null
                         textPrice.text = null
+                        setErrorPhone(null)
+                        setErrorNominal(null)
+                    }
+                }
+
+                itemView.setOnClickListener {
+                    if (layoutFormExchange.visibility == View.GONE) {
+                        TransitionManager.beginDelayedTransition(container, AutoTransition())
+                        layoutFormExchange.visibility = View.VISIBLE
+                        buttonExpandItem.setImageResource(R.drawable.ic_left_arrow_up)
+                    } else {
+                        layoutFormExchange.visibility = View.GONE
+                        buttonExpandItem.setImageResource(R.drawable.ic_left_arrow_down)
+                        textFieldPhone.editText?.text = null
+                        textFieldNominal.editText?.text = null
+                        textPrice.text = null
+                        setErrorPhone(null)
+                        setErrorNominal(null)
                     }
                 }
 
                 mNominal.let {
                     if (it.nominal != 0) {
-                        nominal = it.nominal
-
+//                        nominal = it.nominal
                         layoutFormExchange.visibility = View.VISIBLE
                         buttonExpandItem.setImageResource(R.drawable.ic_left_arrow_up)
-                        textFieldNominal.editText?.setText(it.nominal.toRupiah())
-                        textPrice.text = it.totalNominal.toRupiah()
+                        textFieldNominal.editText?.setText(
+                            it.nominal.toRupiah().toRupiahUnFormatRupiah()
+                        )
+                        textPrice.text = it.totalNominal.toRupiah().toRupiahUnFormatRupiah()
                     }
                 }
-
-
             }
         }
 
         fun onExchangeClik(mExchangeMetode: ExchangeMetode, mUser: User) {
-            itemView.setOnClickListener {
+            itemView.buttonExchange.setOnClickListener {
                 val textPhoneNumber = itemView.textFieldPhone.editText?.text.toString().trim()
                 val textNominal = itemView.textFieldNominal.editText?.text.toString().trim()
                 if (validate(textPhoneNumber, textNominal)) {
-                    val nominal = textNominal
-                        .toRupiahUnFormat()
-                        .toRupiahUnFormatRupiah()
-                        .toInt()
-
+                    val nominal = textNominal.toRupiahUnFormat().toInt()
                     val mExchange = Exchange(
                         "",
                         type = mExchangeMetode.title,
@@ -127,7 +142,7 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                         mUser.uid
                     )
 
-                    println(mExchange)
+                    it.context.makeToast(mExchange.toString())
                 }
             }
         }
@@ -135,6 +150,7 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
         init {
             with(itemView) {
                 textFieldNominal.setEndIconOnClickListener {
+                    listData[adapterPosition].position = adapterPosition
                     onItemClick?.invoke(listData[adapterPosition])
                 }
             }
@@ -146,10 +162,23 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
             } else {
                 setErrorPhone(null)
             }
+
+
             if (nominal.isEmpty()) {
-                setErrorPhone("Minimal Rp1.000")
+                setErrorNominal("Masukkan nominal")
+            } else if (nominal.toRupiahUnFormat().toInt() < 999) {
+                setErrorNominal("Minimal Rp1.000")
             } else {
-                setErrorPhone(null)
+                setErrorNominal(null)
+            }
+
+
+
+
+            if (phoneNumber.isEmpty() || nominal.isEmpty() ||
+                nominal.toRupiahUnFormat().toInt() < 999
+            ) {
+                return false
             }
 
             return true
@@ -178,7 +207,6 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                 }
             }
         }
-
 
     }
 
@@ -232,7 +260,8 @@ class ExchangeAdapter : RecyclerView.Adapter<ExchangeAdapter.VHolder>() {
                     if (sNonFormat.toInt() > 999 && sNonFormat.toInt() % 1000 == 0) {
                         textFieldNominal.isErrorEnabled = false
                         textFieldNominal.helperText = null
-                        textPrice.text = sNonFormat.toInt().plus(1000).toRupiah()
+                        textPrice.text =
+                            sNonFormat.toInt().plus(1000).toRupiah().toRupiahUnFormatRupiah()
                     }
                 }
             }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarActivity
+import com.afdhal_fa.treasure.core.utils.setMarginStart
 import com.afdhal_fa.treasure.databinding.ActivityChoseeNominalBinding
 import com.afdhal_fa.treasure.view.exchange.ExchangeFragment
 import com.afdhal_fa.treasure.view.exchange.ExchangeFragment.Companion.INTENT_RESUTL_EXTRA_POSITION
@@ -47,6 +48,7 @@ class ChoseeNominalActivity : BaseToolbarActivity<NominalViewModel>() {
 
     override fun setToolbar(): Toolbar {
         binding.includeAppbar.textTitleToolbar.text = getString(R.string.title_nominal)
+        binding.includeAppbar.textTitleToolbar.setMarginStart(72)
         binding.includeAppbar.toolbar.setNavigationIcon(R.drawable.ic_close)
         return binding.includeAppbar.toolbar
     }
