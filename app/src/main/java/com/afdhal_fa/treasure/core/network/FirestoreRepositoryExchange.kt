@@ -20,6 +20,7 @@ object FirestoreRepositoryExchange {
 
     fun exchange(mExchange: Exchange): LiveData<Resource<TreasureUser>> =
         MutableLiveData<Resource<TreasureUser>>().apply {
+            postValue(Resource.Loading())
             val exchange = Exchange(
                 mExchange.type,
                 mExchange.serviceType,
@@ -39,21 +40,30 @@ object FirestoreRepositoryExchange {
                                         val mTreasureUser =
                                             i.toObject(TreasureUser::class.java) as TreasureUser
                                         if (mTreasureUser.uid.equals(mExchange.uId)) {
+                                            if (mTreasureUser.saldo >= mExchange.totalNominal) {
+                                                val idConlleciton = i.id
+                                                val saldoUpdate =
+                                                    mTreasureUser.saldo.minus(mExchange.totalNominal)
+                                                mTreasureUser.saldo = saldoUpdate
 
-                                            val idConlleciton = i.id
-                                            val saldoUpdate =
-                                                mTreasureUser.saldo.minus(mExchange.totalNominal)
-                                            mTreasureUser.saldo = saldoUpdate
-
-                                            treasureUserRef.document(idConlleciton)
-                                                .update("saldo", saldoUpdate)
-                                                .addOnCompleteListener {
-                                                    if (it.isSuccessful) {
-                                                        postValue(Resource.Success(mTreasureUser))
-                                                    } else {
-                                                        println("Erorr : ${it.exception?.message}")
+                                                treasureUserRef.document(idConlleciton)
+                                                    .update("saldo", saldoUpdate)
+                                                    .addOnCompleteListener {
+                                                        if (it.isSuccessful) {
+                                                            postValue(Resource.Success(mTreasureUser))
+                                                        } else {
+                                                            println("Erorr : ${it.exception?.message}")
+                                                            postValue(Resource.Error(it.exception?.message.toString()))
+                                                        }
                                                     }
-                                                }
+                                            } else {
+                                                postValue(
+                                                    Resource.Error(
+                                                        "Saldo tidak cukup sisa saldo ",
+                                                        mTreasureUser
+                                                    )
+                                                )
+                                            }
                                         } else {
                                             postValue(Resource.Error("not same"))
                                         }

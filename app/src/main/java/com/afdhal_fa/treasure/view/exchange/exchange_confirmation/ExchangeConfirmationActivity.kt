@@ -62,7 +62,8 @@ class ExchangeConfirmationActivity : BaseToolbarActivity<ConfirmationViewModel>(
                     this,
                     ExchangeStatusActivity::class.java
                 ).putExtra(ExchangeFragment.INTENT_EXTRA_EXCHANGE, mExchange)
-            )
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP and Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_NEW_TASK)
+            ).also { finish() }
         }
     }
 

@@ -58,10 +58,9 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
                 startActivity(
                     Intent(activity, ExchangeConfirmationActivity::class.java)
                         .putExtra(INTENT_EXTRA_EXCHANGE, resultData)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP and Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_NEW_TASK)
                 )
             }
-
-
 
             viewmodel.exchangeMetode().observe(viewLifecycleOwner, {
                 exchangeAdapter.setItem(it)

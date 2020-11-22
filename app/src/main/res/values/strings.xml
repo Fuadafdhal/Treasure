@@ -62,5 +62,11 @@
     <string name="text_service_type">Jenis Layanan</string>
     <string name="text_title_number">Nomor</string>
 
+    <!--    ExchangeStatusActiviy-->
+    <string name="text_loading">Loading…</string>
+    <string name="text_failed">Gagal</string>
+    <string name="text_success">Berhasil</string>
+    <string name="text_back">Kembali</string>
+
 
 </resources>
