@@ -17,7 +17,9 @@ import com.afdhal_fa.treasure.view.home.setting.SettingActivity
 import com.afdhal_fa.treasure.view.login.LoginActivity
 
 class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
-    private lateinit var binding: FragmentHomeBinding
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private lateinit var userid: String
 
 
@@ -26,7 +28,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+        _binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -104,5 +106,10 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
         if (boolean) {
             startActivity(Intent(this.context, LoginActivity::class.java))
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

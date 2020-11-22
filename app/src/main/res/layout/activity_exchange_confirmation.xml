@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowBackgoround"
-    tools:context=".view.exchange_confirmation.ExchangeConfirmationActivity">
+    tools:context=".view.exchange.exchange_confirmation.ExchangeConfirmationActivity">
 
     <include
         android:id="@+id/includeAppbar"
@@ -100,7 +100,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/sf_pro_regular"
-                android:text="Pulsa"
+                android:text="@string/text_pulsa"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"

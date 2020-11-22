@@ -1,4 +1,4 @@
-package com.afdhal_fa.treasure.view.choose_nominal
+package com.afdhal_fa.treasure.view.exchange.choose_nominal
 
 import android.content.Intent
 import android.os.Bundle
@@ -55,7 +55,6 @@ class ChoseeNominalActivity : BaseToolbarActivity<NominalViewModel>() {
 
     override fun setToolbarButtonBack() = true
 
-    override fun initViewModel(): NominalViewModel {
-        return ViewModelProvider(this)[NominalViewModel::class.java]
-    }
+    override fun initViewModel() = ViewModelProvider(this)[NominalViewModel::class.java]
+
 }

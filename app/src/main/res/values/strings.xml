@@ -9,6 +9,7 @@
     <string name="title_edit_profile">Edit Profile</string>
     <string name="title_price_trash">Harga sampah</string>
     <string name="title_nominal">Nominal</string>
+    <string name="title_confirmation">Konfirmasi</string>
 
 
     <string name="image_description">image</string>
@@ -53,7 +54,9 @@
     <string name="text_see_more">Lihat Semua</string>
     <string name="text_tips">Tips</string>
 
+    <!--    ExchangeConfirmationActiviy-->
     <!--    ItemExchange-->
+    <string name="text_pulsa">Pulsa</string>
     <string name="text_change">Tukar</string>
     <string name="prompt_nominal">Nominal</string>
     <string name="text_service_type">Jenis Layanan</string>

@@ -8,12 +8,16 @@ import coil.load
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.Price
 import com.afdhal_fa.treasure.core.utils.makeToast
-import kotlinx.android.synthetic.main.item_price.view.*
+import com.afdhal_fa.treasure.core.utils.toRupiah
+import com.afdhal_fa.treasure.databinding.ItemPriceBinding
+import org.difcool.aksirelawan.base.BaseRecyclerViewAdapter
 
-class PriceAdapter(private val list: List<Price>) : RecyclerView.Adapter<PriceAdapter.VHolder>() {
+class PriceAdapter : BaseRecyclerViewAdapter<PriceAdapter.VHolder, Price>() {
     inner class VHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemPriceBinding.bind(itemView)
+
         fun bind(mPrice: Price) {
-            with(itemView) {
+            with(binding) {
                 imageItemPrice.load(mPrice.image) {
                     crossfade(true)
                     crossfade(1000)
@@ -22,11 +26,10 @@ class PriceAdapter(private val list: List<Price>) : RecyclerView.Adapter<PriceAd
                 }
 
                 textItemTitle.text = mPrice.title
-                //TODO : Change to price convert
-                textItemPrice.text = mPrice.price.toString()
+                textItemPrice.text = mPrice.price.toInt().toRupiah()
 
-                setOnClickListener {
-                    context.makeToast(mPrice.title)
+                binding.root.setOnClickListener {
+                    binding.root.context.makeToast(mPrice.title)
                 }
             }
         }
@@ -36,10 +39,7 @@ class PriceAdapter(private val list: List<Price>) : RecyclerView.Adapter<PriceAd
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         VHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_price, parent, false))
 
-
-    override fun onBindViewHolder(holder: VHolder, position: Int) {
-        holder.bind(list[position])
+    override fun onBindViewHolder(holder: VHolder, item: Price, position: Int) {
+        holder.bind(item)
     }
-
-    override fun getItemCount() = list.size
 }

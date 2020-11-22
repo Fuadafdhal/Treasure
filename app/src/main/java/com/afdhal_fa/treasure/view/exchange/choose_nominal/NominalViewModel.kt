@@ -1,4 +1,4 @@
-package com.afdhal_fa.treasure.view.choose_nominal
+package com.afdhal_fa.treasure.view.exchange.choose_nominal
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

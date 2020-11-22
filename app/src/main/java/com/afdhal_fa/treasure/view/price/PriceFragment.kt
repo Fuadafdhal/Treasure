@@ -12,26 +12,33 @@ import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentPriceBinding
-import kotlinx.android.synthetic.main.app_bar.view.*
 
 
 class PriceFragment : BaseToolbarFragment<PriceViewModel>() {
-    private lateinit var binding: FragmentPriceBinding
+
+    private var _binding: FragmentPriceBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var priceAdapter: PriceAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPriceBinding.inflate(layoutInflater)
+        _binding = FragmentPriceBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        priceAdapter = PriceAdapter()
+
         with(binding.rvPrice) {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
+            adapter = priceAdapter
         }
         setPriceList()
 
@@ -42,7 +49,7 @@ class PriceFragment : BaseToolbarFragment<PriceViewModel>() {
             when (it) {
                 is Resource.Success -> {
                     if (it.data != null) {
-                        binding.rvPrice.adapter = PriceAdapter(it.data)
+                        priceAdapter.setItem(it.data)
                     }
                 }
                 is Resource.Error -> {
@@ -50,7 +57,6 @@ class PriceFragment : BaseToolbarFragment<PriceViewModel>() {
                 }
             }
         })
-
     }
 
 
@@ -61,5 +67,10 @@ class PriceFragment : BaseToolbarFragment<PriceViewModel>() {
 
     override fun initViewModel(): PriceViewModel {
         return ViewModelProvider(this)[PriceViewModel::class.java]
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

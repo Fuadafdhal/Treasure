@@ -15,18 +15,20 @@ import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentExchangeBinding
-import com.afdhal_fa.treasure.view.choose_nominal.ChoseeNominalActivity
-import com.afdhal_fa.treasure.view.exchange_confirmation.ExchangeConfirmationActivity
+import com.afdhal_fa.treasure.view.exchange.choose_nominal.ChoseeNominalActivity
+import com.afdhal_fa.treasure.view.exchange.exchange_confirmation.ExchangeConfirmationActivity
 import com.afdhal_fa.treasure.view.login.LoginActivity
 
 class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
-    private lateinit var binding: FragmentExchangeBinding
+    private var _binding: FragmentExchangeBinding? = null
+    private val binding get() = _binding!!
     private lateinit var exchangeAdapter: ExchangeAdapter
 
     companion object {
         const val INTENT_REQUEST_CODE_NOMINAL = 100
         const val INTENT_RESUTL_EXTRA_NOMINAL = "extra_result_nominal"
         const val INTENT_RESUTL_EXTRA_POSITION = "extra_result_position"
+        const val INTENT_EXTRA_EXCHANGE = "extra_extra_exchange"
     }
 
     override fun onCreateView(
@@ -34,7 +36,7 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentExchangeBinding.inflate(layoutInflater)
+        _binding = FragmentExchangeBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -55,14 +57,14 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
             exchangeAdapter.onExchangeClick = { resultData ->
                 startActivity(
                     Intent(activity, ExchangeConfirmationActivity::class.java)
-                        .putExtra(INTENT_RESUTL_EXTRA_POSITION, resultData)
+                        .putExtra(INTENT_EXTRA_EXCHANGE, resultData)
                 )
             }
 
 
 
             viewmodel.exchangeMetode().observe(viewLifecycleOwner, {
-                exchangeAdapter.setData(it)
+                exchangeAdapter.setItem(it)
             })
 
             with(binding.rvExchange) {
@@ -117,5 +119,10 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
     override fun setToolbar(): Toolbar {
         binding.includeAppbar.textTitleToolbar.text = getString(R.string.title_exchange)
         return binding.includeAppbar.toolbar
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

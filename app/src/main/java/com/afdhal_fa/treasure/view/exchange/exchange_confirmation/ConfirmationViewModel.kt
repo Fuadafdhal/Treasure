@@ -1,4 +1,4 @@
-package com.afdhal_fa.treasure.view.exchange_confirmation
+package com.afdhal_fa.treasure.view.exchange.exchange_confirmation
 
 import androidx.lifecycle.ViewModel
 

@@ -12,7 +12,7 @@ object FirestoreRepositoryPrice {
     private val pricesRef: CollectionReference =
         rootRef.collection(FirestoreContact.PRICE_TREASURE_CLOUD)
 
-    fun viewPriceInFirestore() = MutableLiveData<Resource<List<Price>>>().apply {
+    fun viewPriceInFirestore() = MutableLiveData<Resource<MutableList<Price>>>().apply {
         val dataArray = ArrayList<Price>()
         pricesRef
             .get()

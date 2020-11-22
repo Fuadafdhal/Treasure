@@ -8,6 +8,6 @@ import com.afdhal_fa.treasure.core.vo.Resource
 
 class PriceViewModel : ViewModel() {
 
-    fun viewPriceList(): LiveData<Resource<List<Price>>> =
+    fun viewPriceList(): LiveData<Resource<MutableList<Price>>> =
         FirestoreRepositoryPrice.viewPriceInFirestore()
 }

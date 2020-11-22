@@ -1,5 +1,6 @@
-package com.afdhal_fa.treasure.view.exchange_confirmation
+package com.afdhal_fa.treasure.view.exchange.exchange_confirmation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
@@ -7,9 +8,11 @@ import coil.load
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.Exchange
 import com.afdhal_fa.treasure.core.utils.BaseToolbarActivity
+import com.afdhal_fa.treasure.core.utils.setMarginStart
 import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.databinding.ActivityExchangeConfirmationBinding
 import com.afdhal_fa.treasure.view.exchange.ExchangeFragment
+import com.afdhal_fa.treasure.view.exchange_status.ExchangeStatusActivity
 
 class ExchangeConfirmationActivity : BaseToolbarActivity<ConfirmationViewModel>() {
 
@@ -20,10 +23,10 @@ class ExchangeConfirmationActivity : BaseToolbarActivity<ConfirmationViewModel>(
         binding = ActivityExchangeConfirmationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val intent =
-            intent.getParcelableExtra<Exchange>(ExchangeFragment.INTENT_RESUTL_EXTRA_POSITION)
+        val mExchange =
+            intent.getParcelableExtra<Exchange>(ExchangeFragment.INTENT_EXTRA_EXCHANGE)
 
-        intent?.let {
+        mExchange?.let {
 
             binding.imageExchangeType.load(
                 when (it.type) {
@@ -53,14 +56,23 @@ class ExchangeConfirmationActivity : BaseToolbarActivity<ConfirmationViewModel>(
             binding.textPrice.text = it.totalNominal.toRupiah()
         }
 
+        binding.buttonExchange.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ExchangeStatusActivity::class.java
+                ).putExtra(ExchangeFragment.INTENT_EXTRA_EXCHANGE, mExchange)
+            )
+        }
     }
 
     override fun setToolbar(): Toolbar {
+        binding.includeAppbar.textTitleToolbar.text = getText(R.string.title_confirmation)
+        binding.includeAppbar.textTitleToolbar.setMarginStart(72)
         return binding.includeAppbar.toolbar
     }
 
-    override fun initViewModel(): ConfirmationViewModel {
-        return ViewModelProvider(this)[ConfirmationViewModel::class.java]
-    }
+    override fun setToolbarButtonBack() = true
 
+    override fun initViewModel() = ViewModelProvider(this)[ConfirmationViewModel::class.java]
 }
