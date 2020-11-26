@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.utils.toRupiah
-import com.afdhal_fa.treasure.core.utils.ujicoba
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentHomeBinding
 import com.afdhal_fa.treasure.view.home.notification.NotificationActivity
@@ -21,6 +21,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var userid: String
+    private lateinit var tipsAdapter: TipsAdapter
 
 
     override fun onCreateView(
@@ -34,10 +35,19 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkIfUserIsAuthenticated()
-        setHasOptionsMenu(true)
+        tipsAdapter = TipsAdapter()
 
-        ujicoba()
+        if (activity != null) {
+            checkIfUserIsAuthenticated()
+            setHasOptionsMenu(true)
+            setTreasureTips()
+
+            with(binding.rvTips) {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = tipsAdapter
+            }
+
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -93,6 +103,22 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
                             if (it.data.level == 0) "-" else it.data.level.toString()
                         binding.textSaldo.text =
                             if (it.data.saldo == 0L) "-" else it.data.saldo.toInt().toRupiah()
+                    }
+                }
+                is Resource.Error -> {
+                    context?.makeToast(it.message.toString())
+                }
+            }
+        })
+    }
+
+
+    private fun setTreasureTips() {
+        viewmodel.getTipsTreasure().observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Success -> {
+                    if (it.data != null) {
+                        tipsAdapter.setItem(it.data)
                     }
                 }
                 is Resource.Error -> {
