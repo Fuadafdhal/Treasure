@@ -35,7 +35,7 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentScanBinding.inflate(layoutInflater)
+        _binding = FragmentScanBinding.inflate(inflater, container, false)
         return binding.root
     }
 

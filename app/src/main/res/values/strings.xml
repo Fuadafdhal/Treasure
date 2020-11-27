@@ -73,6 +73,7 @@
     <string name="text_hint_or_use_id">atau masukkan kode ID Trashbag</string>
     <string name="hint_enter_id">Masukkan ID</string>
     <string name="text_input">Input</string>
+    <string name="title_setting">Pengaturan</string>
 
 
 </resources>

@@ -53,10 +53,10 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_setting -> {
-                startActivity(Intent(context, NotificationActivity::class.java))
+                startActivity(Intent(context, SettingActivity::class.java))
             }
             R.id.menu_notificationn -> {
-                startActivity(Intent(context, SettingActivity::class.java))
+                startActivity(Intent(context, NotificationActivity::class.java))
             }
         }
         return true
