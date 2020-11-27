@@ -104,4 +104,6 @@ dependencies {
     implementation "com.facebook.android:facebook-android-sdk:$facebookandroidsdk_version"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
 }

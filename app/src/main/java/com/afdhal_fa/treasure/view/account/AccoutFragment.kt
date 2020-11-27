@@ -66,37 +66,38 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
     }
 
     private fun setUserData() {
-        viewmodel.getUserData(userid).observe(viewLifecycleOwner, {
-            when (it) {
+        viewmodel.getUserData(userid).observe(viewLifecycleOwner, { result ->
+            when (result) {
                 is Resource.Success -> {
-                    if (it.data != null) {
+                    if (result.data != null) {
                         Glide.with(this)
-                            .load(it.data.image)
+                            .load(result.data.image)
                             .placeholder(R.drawable.image_placeholder)
                             .error(R.drawable.image_broken)
                             .into(binding.imageProfile)
 
-                        binding.textName.text = if (it.data.name.equals("")) "-" else it.data.name
+                        binding.textName.text =
+                            if (result.data.name.equals("")) "-" else result.data.name
                         binding.textPhone.text =
-                            if (it.data.phoneNumber.equals("")) "-" else it.data.phoneNumber
+                            if (result.data.phoneNumber.equals("")) "-" else result.data.phoneNumber
                         binding.textEmail.text =
-                            if (it.data.email.equals("")) "-" else it.data.email
+                            if (result.data.email.equals("")) "-" else result.data.email
                         binding.textBirtday.text =
-                            if (it.data.birtdayDate.equals("")) "-" else it.data.birtdayDate
+                            if (result.data.birtdayDate.equals("")) "-" else result.data.birtdayDate
 
                         binding.buttonEdit.visibility = View.VISIBLE
 
-                        binding.buttonEdit.setOnClickListener { view ->
+                        binding.buttonEdit.setOnClickListener {
                             startActivityForResult(
                                 Intent(this.context, EditProfileActivity::class.java).apply {
-                                    putExtra(EXTRA_USER_DATA, it.data)
+                                    putExtra(EXTRA_USER_DATA, result.data)
                                 }, INTENT_REQUEST_CODE_EDIT_PROFILE
                             )
                         }
                     }
                 }
                 is Resource.Error -> {
-                    context?.makeToast(it.message.toString())
+                    context?.makeToast(result.message.toString())
                 }
             }
         })

@@ -48,7 +48,7 @@ class EditProfileActivity : BaseToolbarActivity<EditProfileViewModel>() {
             binding.textFieldBirtday.editText?.setText(it.birtdayDate)
         }
 
-        binding.buttonSave.setOnClickListener { view ->
+        binding.buttonSave.setOnClickListener {
             val textName = binding.textFieldName.editText?.text.toString().trim()
             val textPhone = binding.textFieldPhone.editText?.text.toString().trim()
             val textBirtdayDate = binding.textFieldBirtday.editText?.text.toString().trim()

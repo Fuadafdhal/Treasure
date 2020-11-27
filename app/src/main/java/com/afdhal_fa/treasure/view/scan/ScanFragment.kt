@@ -1,31 +1,107 @@
 package com.afdhal_fa.treasure.view.scan
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import com.afdhal_fa.treasure.R
+import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
+import com.afdhal_fa.treasure.databinding.FragmentScanBinding
+import com.google.zxing.Result
+import me.dm7.barcodescanner.core.IViewFinder
+import me.dm7.barcodescanner.zxing.ZXingScannerView
 
-class ScanFragment : Fragment() {
+class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.ResultHandler {
+    private var _binding: FragmentScanBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var scanViewModel: ScanViewModel
+    private lateinit var mScannerView: ZXingScannerView
+
+    override fun onStart() {
+        mScannerView.startCamera()
+        doRequestPermission()
+        super.onStart()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        scanViewModel =
-            ViewModelProviders.of(this).get(ScanViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_scan, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        scanViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+    ): View {
+        _binding = FragmentScanBinding.inflate(layoutInflater)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initScannerView()
+    }
+
+
+    private fun initScannerView() {
+        mScannerView = object : ZXingScannerView(context) {
+            override fun createViewFinderView(context: Context?): IViewFinder {
+                return CustomViewScanFinderView(context!!)
+            }
+        }
+        mScannerView.setAutoFocus(true)
+        mScannerView.setResultHandler(this)
+        binding.layoutCameraScan.addView(mScannerView)
+    }
+
+    override fun handleResult(p0: Result?) {
+        TODO("What do you do for handel result ")
+    }
+
+    private fun doRequestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (activity?.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), 100)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            100 -> {
+                initScannerView()
+            }
+            else -> {
+                /* nothing to do in here */
+            }
+        }
+    }
+
+    override fun onPause() {
+        mScannerView.stopCamera()
+        super.onPause()
+    }
+
+    override fun setToolbar(): Toolbar {
+        binding.includeAppbar.textTitleToolbar.text = getString(R.string.title_scan)
+        return binding.includeAppbar.toolbar
+    }
+
+    override fun initViewModel(): ScanViewModel {
+        return ViewModelProvider(this)[ScanViewModel::class.java]
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+
 }
