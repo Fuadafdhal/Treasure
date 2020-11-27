@@ -13,7 +13,7 @@ class CustomViewScanFinderView constructor(context: Context) : ViewFinderView(co
     private var cntr = 0
     private var goingup = false
     private val POINT_SIZE = 10
-    private val ANIMATION_DELAY = 10L
+    private val ANIMATION_DELAY = 50L
 
     init {
         paint.color = Color.WHITE

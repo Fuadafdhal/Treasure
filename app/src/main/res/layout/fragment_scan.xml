@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="4dp"
         app:cardUseCompatPadding="true"
@@ -39,23 +39,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/sf_pro_regular"
-                android:text="Arahkan ke QR code yang ada pada Trashbag"
+                android:text="@string/text_hint_scan_qr_code"
                 android:textColor="@color/colorTextHintLabel"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <FrameLayout
+            <androidx.cardview.widget.CardView
                 android:id="@+id/layoutCameraScan"
                 android:layout_width="0dp"
                 android:layout_height="221dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="60dp"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textHint" />
+                app:layout_constraintTop_toBottomOf="@+id/textHint">
+
+                <FrameLayout
+                    android:id="@+id/frameCameraScan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.cardview.widget.CardView>
+
 
             <View
                 android:id="@+id/line"
@@ -74,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/sf_pro_regular"
-                android:text="atau masukkan kode ID Trashbag"
+                android:text="@string/text_hint_or_use_id"
                 android:textColor="@color/colorTextHintLabel"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:hint="Masukkan ID"
+                    android:hint="@string/hint_enter_id"
                     android:includeFontPadding="false"
                     android:paddingStart="20dp"
                     android:paddingTop="21dp"
@@ -121,12 +131,11 @@
                 android:background="@drawable/background_ractangel_radius_4dp"
                 android:paddingStart="44dp"
                 android:paddingEnd="44dp"
-                android:text="Input"
+                android:text="@string/text_input"
                 app:layout_constraintBottom_toBottomOf="@+id/textFieldIDCode"
                 app:layout_constraintEnd_toEndOf="@+id/textFieldIDCode"
                 app:layout_constraintTop_toTopOf="@+id/textFieldIDCode"
                 app:layout_constraintVertical_bias="1.0" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

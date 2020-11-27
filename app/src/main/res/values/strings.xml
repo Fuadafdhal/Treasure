@@ -68,5 +68,11 @@
     <string name="text_success">Berhasil</string>
     <string name="text_back">Kembali</string>
 
+    <!--    scanFragment-->
+    <string name="text_hint_scan_qr_code">Arahkan ke QR code yang ada pada Trashbag</string>
+    <string name="text_hint_or_use_id">atau masukkan kode ID Trashbag</string>
+    <string name="hint_enter_id">Masukkan ID</string>
+    <string name="text_input">Input</string>
+
 
 </resources>

@@ -54,7 +54,7 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
         }
         mScannerView.setAutoFocus(true)
         mScannerView.setResultHandler(this)
-        binding.layoutCameraScan.addView(mScannerView)
+        binding.frameCameraScan.addView(mScannerView)
     }
 
     override fun handleResult(p0: Result?) {
