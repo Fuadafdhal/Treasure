@@ -49,6 +49,7 @@ object FirestoreRepositoryAccount {
 
     fun viewTreasureUserInFirestore(userid: String): LiveData<Resource<TreasureUser>> {
         return MutableLiveData<Resource<TreasureUser>>().apply {
+            postValue(Resource.Loading())
             treasureUserRef
                 .get()
                 .addOnCompleteListener { task ->
@@ -56,13 +57,29 @@ object FirestoreRepositoryAccount {
                         for (i in task.result?.documents!!) {
                             val mTreasureUser = i.toObject(TreasureUser::class.java) as TreasureUser
                             if (mTreasureUser.uid.equals(userid)) {
+                                mTreasureUser.id = i.id
                                 postValue(Resource.Success(mTreasureUser))
                             } else {
-                                postValue(Resource.Error("not same"))
+                                postValue(Resource.Error("Dompet Treasure Anda Tidak Ditemukan"))
                             }
                         }
                     } else {
                         postValue(Resource.Error(task.exception!!.message.toString()))
+                    }
+                }
+        }
+    }
+
+    fun updateTreasureUserInFirestore(mTreasureUser: TreasureUser): LiveData<Resource<TreasureUser>> {
+        return MutableLiveData<Resource<TreasureUser>>().apply {
+            treasureUserRef.document(mTreasureUser.id)
+                .update("saldo", mTreasureUser.saldo)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        postValue(Resource.Success(mTreasureUser))
+                    } else {
+                        println("Erorr : ${it.exception?.message}")
+                        postValue(Resource.Error(it.exception?.message.toString()))
                     }
                 }
         }

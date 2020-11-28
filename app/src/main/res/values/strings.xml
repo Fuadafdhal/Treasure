@@ -74,6 +74,8 @@
     <string name="hint_enter_id">Masukkan ID</string>
     <string name="text_input">Input</string>
     <string name="title_setting">Pengaturan</string>
+    <string name="title_notification">Notifikasi</string>
+    <string name="title_detail_transaction">Penukaran %s</string>
 
 
 </resources>

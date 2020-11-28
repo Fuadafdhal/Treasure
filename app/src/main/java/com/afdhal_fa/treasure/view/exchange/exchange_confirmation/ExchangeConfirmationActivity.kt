@@ -12,7 +12,7 @@ import com.afdhal_fa.treasure.core.utils.setMarginStart
 import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.databinding.ActivityExchangeConfirmationBinding
 import com.afdhal_fa.treasure.view.exchange.ExchangeFragment
-import com.afdhal_fa.treasure.view.exchange_status.ExchangeStatusActivity
+import com.afdhal_fa.treasure.view.exchange.exchange_status.ExchangeStatusActivity
 
 class ExchangeConfirmationActivity : BaseToolbarActivity<ConfirmationViewModel>() {
 
@@ -52,8 +52,8 @@ class ExchangeConfirmationActivity : BaseToolbarActivity<ConfirmationViewModel>(
 
             binding.textServiceType.text = it.serviceType
             binding.textPhone.text = it.phoneNumber
-            binding.textNominalType.text = it.nominal.toRupiah()
-            binding.textPrice.text = it.totalNominal.toRupiah()
+            binding.textNominalType.text = it.nominal.toInt().toRupiah()
+            binding.textPrice.text = it.totalNominal.toInt().toRupiah()
         }
 
         binding.buttonExchange.setOnClickListener {

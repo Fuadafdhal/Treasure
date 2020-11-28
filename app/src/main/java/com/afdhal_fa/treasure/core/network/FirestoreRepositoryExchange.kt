@@ -3,7 +3,6 @@ package com.afdhal_fa.treasure.core.network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.afdhal_fa.treasure.core.domain.model.Exchange
-import com.afdhal_fa.treasure.core.domain.model.TreasureUser
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,67 +14,38 @@ object FirestoreRepositoryExchange {
     private val exchangeRef: CollectionReference =
         rootRef.collection(FirestoreContact.EXCHANEG_TREASURE_CLOUD)
 
-    private val treasureUserRef: CollectionReference =
-        rootRef.collection(FirestoreContact.TREASURE_USER_CLOUD)
-
-    fun exchange(mExchange: Exchange): LiveData<Resource<TreasureUser>> =
-        MutableLiveData<Resource<TreasureUser>>().apply {
-            postValue(Resource.Loading())
-            val exchange = Exchange(
-                mExchange.type,
-                mExchange.serviceType,
-                mExchange.phoneNumber,
-                mExchange.nominal,
-                mExchange.totalNominal,
-                mExchange.uId
-            )
+    fun createExchangeInFirestore(mExchange: Exchange): LiveData<Resource<Exchange>> =
+        MutableLiveData<Resource<Exchange>>().apply {
             exchangeRef
-                .add(exchange)
+                .add(mExchange)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        treasureUserRef.get()
-                            .addOnCompleteListener { taskTreasure ->
-                                if (taskTreasure.isSuccessful) {
-                                    for (i in taskTreasure.result?.documents!!) {
-                                        val mTreasureUser =
-                                            i.toObject(TreasureUser::class.java) as TreasureUser
-                                        if (mTreasureUser.uid.equals(mExchange.uId)) {
-                                            if (mTreasureUser.saldo >= mExchange.totalNominal) {
-                                                val idConlleciton = i.id
-                                                val saldoUpdate =
-                                                    mTreasureUser.saldo.minus(mExchange.totalNominal)
-                                                mTreasureUser.saldo = saldoUpdate
+                        mExchange.id = it.result!!.id
+                        postValue(Resource.Success(mExchange))
+                    } else {
+                        postValue(Resource.Error(it.exception?.message.toString()))
+                    }
+                }
 
-                                                treasureUserRef.document(idConlleciton)
-                                                    .update("saldo", saldoUpdate)
-                                                    .addOnCompleteListener {
-                                                        if (it.isSuccessful) {
-                                                            postValue(Resource.Success(mTreasureUser))
-                                                        } else {
-                                                            println("Erorr : ${it.exception?.message}")
-                                                            postValue(Resource.Error(it.exception?.message.toString()))
-                                                        }
-                                                    }
-                                            } else {
-                                                postValue(
-                                                    Resource.Error(
-                                                        "Saldo tidak cukup sisa saldo ",
-                                                        mTreasureUser
-                                                    )
-                                                )
-                                            }
-                                        } else {
-                                            postValue(Resource.Error("not same"))
-                                        }
-                                    }
-                                } else {
-                                    postValue(Resource.Error(taskTreasure.exception!!.message.toString()))
-                                    println(taskTreasure.exception?.message)
+        }
 
+    fun viewExchangeInFirestore(uid: String): LiveData<Resource<MutableList<Exchange>>> =
+        MutableLiveData<Resource<MutableList<Exchange>>>().apply {
+            val dataArray = ArrayList<Exchange>()
+            exchangeRef
+                .get()
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        for (i in it.result!!.documents) {
+                            val mExchange = i.toObject(Exchange::class.java)
+                            if (mExchange != null) {
+                                if (mExchange.uid == uid) {
+                                    println(mExchange.toString())
+                                    dataArray.add(mExchange)
                                 }
                             }
-
-
+                        }
+                        postValue(Resource.Success(dataArray))
                     } else {
                         postValue(Resource.Error(it.exception?.message.toString()))
                     }

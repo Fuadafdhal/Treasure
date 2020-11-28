@@ -54,7 +54,6 @@
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="60dp"
                 app:cardCornerRadius="4dp"
-                app:cardUseCompatPadding="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textHint">
@@ -62,10 +61,13 @@
                 <FrameLayout
                     android:id="@+id/frameCameraScan"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="-60dp"
+                    android:layout_marginTop="-40dp"
+                    android:layout_marginEnd="-60dp"
+                    android:layout_marginBottom="-40dp"
+                    tools:background="@drawable/background_oval" />
             </androidx.cardview.widget.CardView>
-
 
             <View
                 android:id="@+id/line"
@@ -76,7 +78,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutCameraScan" />
-
 
             <TextView
                 android:id="@+id/textHint2"

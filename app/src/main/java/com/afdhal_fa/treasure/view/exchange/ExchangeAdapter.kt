@@ -118,14 +118,11 @@ class ExchangeAdapter : BaseRecyclerViewAdapter<ExchangeAdapter.ExchangeVHolder,
         fun onExchangeClik(mExchangeMetode: ExchangeMetode, mUser: User) {
             with(binding) {
                 buttonExchange.setOnClickListener {
-//                    val textPhoneNumber = textFieldPhone.editText?.text.toString().trim()
-//                    val textNominal = textFieldNominal.editText?.text.toString().trim()
-
-                    val textPhoneNumber = "082292606316"
-                    val textNominal = "Rp.1.000"
+                    val textPhoneNumber = textFieldPhone.editText?.text.toString().trim()
+                    val textNominal = textFieldNominal.editText?.text.toString().trim()
 
                     if (validate(textPhoneNumber, textNominal)) {
-                        val nominal = textNominal.toRupiahUnFormat().toInt()
+                        val nominal = textNominal.toRupiahUnFormat().toLong()
                         val serviceType = textPhoneNumber.substring(0, 4).replace("0", "62")
                         val mExchange = Exchange(
                             type = mExchangeMetode.title,
@@ -133,7 +130,9 @@ class ExchangeAdapter : BaseRecyclerViewAdapter<ExchangeAdapter.ExchangeVHolder,
                             phoneNumber = textPhoneNumber,
                             nominal = nominal,
                             totalNominal = nominal.plus(1000),
-                            uId = mUser.uid
+                            timestamp = System.currentTimeMillis(),
+                            read = false,
+                            uid = mUser.uid
                         )
                         onExchangeClick?.invoke(mExchange)
                     } else {

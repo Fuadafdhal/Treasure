@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowBackgoround"
-    tools:context=".view.exchange_status.ExchangeStatusActivity">
+    tools:context=".view.exchange.exchange_status.ExchangeStatusActivity">
 
     <ImageView
         android:id="@+id/imageStatus"
