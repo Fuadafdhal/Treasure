@@ -4,10 +4,10 @@
     package="com.afdhal_fa.treasure">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name=".Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".view.scan.scan.ScanActivity" />
         <activity android:name=".view.home.notification.DetailNotificationActivity" />
         <activity android:name=".view.home.setting.SettingActivity" />
         <activity android:name=".view.home.notification.NotificationActivity" />
@@ -31,10 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
-
+        <activity android:name=".MainActivity" />
         <activity android:name=".SplashScreenActivity" />
 
         <meta-data

@@ -61,12 +61,7 @@
                 <FrameLayout
                     android:id="@+id/frameCameraScan"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="-60dp"
-                    android:layout_marginTop="-40dp"
-                    android:layout_marginEnd="-60dp"
-                    android:layout_marginBottom="-40dp"
-                    tools:background="@drawable/background_oval" />
+                    android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
 
             <View

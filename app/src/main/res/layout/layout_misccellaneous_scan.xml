@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutMiscellneous"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_miscellneous"
+    android:orientation="vertical"
+    app:behavior_peekHeight="88dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_ractangel_radius_4dp"
+        android:backgroundTint="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/background_ractangel_radius_4dp"
+        android:backgroundTint="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/line1"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/line1"
+        app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+    <TextView
+        android:id="@+id/textHint2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/sf_pro_regular"
+        android:text="@string/text_hint_or_use_id"
+        android:textColor="@color/colorTextHintLabel"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldIDCode"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/background_ractangel_radius_4dp"
+        android:backgroundTint="@color/colorTextHintLabel"
+        android:orientation="horizontal"
+        app:boxBackgroundColor="@color/windowBackgoround"
+        app:boxBackgroundMode="filled"
+        app:boxStrokeWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textHint2"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="@string/hint_enter_id"
+            android:includeFontPadding="false"
+            android:paddingStart="20dp"
+            android:paddingTop="21dp"
+            android:paddingEnd="140dp"
+            android:paddingBottom="19dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonInput"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:background="@drawable/background_ractangel_radius_4dp"
+        android:paddingStart="44dp"
+        android:paddingEnd="44dp"
+        android:text="@string/text_input"
+        app:layout_constraintBottom_toBottomOf="@+id/textFieldIDCode"
+        app:layout_constraintEnd_toEndOf="@+id/textFieldIDCode"
+        app:layout_constraintTop_toTopOf="@+id/textFieldIDCode"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="line2,line1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

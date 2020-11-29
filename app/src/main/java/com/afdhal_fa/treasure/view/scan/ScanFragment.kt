@@ -2,6 +2,7 @@ package com.afdhal_fa.treasure.view.scan
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.databinding.FragmentScanBinding
+import com.afdhal_fa.treasure.view.scan.scan.ScanActivity
 import com.google.zxing.Result
 import me.dm7.barcodescanner.core.IViewFinder
 import me.dm7.barcodescanner.zxing.ZXingScannerView
@@ -43,6 +45,13 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
         super.onViewCreated(view, savedInstanceState)
 
         initScannerView()
+
+        if (activity != null) {
+            binding.layoutCameraScan.setOnClickListener {
+                startActivity(Intent(activity, ScanActivity::class.java))
+            }
+        }
+
     }
 
 

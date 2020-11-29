@@ -76,6 +76,8 @@
     <string name="title_setting">Pengaturan</string>
     <string name="title_notification">Notifikasi</string>
     <string name="title_detail_transaction">Penukaran %s</string>
+    <string name="gunakan_kamera_untuk_scan_qr_code">Gunakan kamera untuk scan QR Code</string>
+    <string name="sampah_terkumpul">Sampah Terkumpul</string>
 
 
 </resources>
