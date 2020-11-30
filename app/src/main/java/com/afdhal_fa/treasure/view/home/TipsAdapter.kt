@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.Tips
+import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.databinding.ItemTipsBinding
 import org.difcool.aksirelawan.base.BaseRecyclerViewAdapter
 
@@ -21,6 +22,7 @@ class TipsAdapter : BaseRecyclerViewAdapter<TipsAdapter.VHolder, Tips>() {
                 }
                 textItemTitle.text = mTips.title
                 println("Tips ID : ${mTips.id}")
+                binding.root.context.makeToast(itemCount.toString())
             }
         }
 
