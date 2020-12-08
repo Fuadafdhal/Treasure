@@ -15,6 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".view.scan.statustrashbag.StatusTrashbagActivity"></activity>
+        <activity android:name=".view.scan.scanstatus.ScanStatusActivity" />
         <activity android:name=".view.scan.scan.ScanActivity" />
         <activity android:name=".view.home.notification.DetailNotificationActivity" />
         <activity android:name=".view.home.setting.SettingActivity" />
@@ -28,21 +30,22 @@
         <activity android:name=".view.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".SplashScreenActivity" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">

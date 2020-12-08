@@ -6,4 +6,5 @@ object FirestoreContact {
     const val PRICE_TREASURE_CLOUD = "PriceTreasure"
     const val EXCHANEG_TREASURE_CLOUD = "ExchangeTreasure"
     const val TIPS_TREASURE_CLOUD = "TipsTreasure"
+    const val DEPOSITE_TREASURE_CLOUD = "DepositTreasure"
 }

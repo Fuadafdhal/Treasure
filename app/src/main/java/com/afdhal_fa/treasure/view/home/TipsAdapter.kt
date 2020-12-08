@@ -21,7 +21,6 @@ class TipsAdapter : BaseRecyclerViewAdapter<TipsAdapter.VHolder, Tips>() {
                     crossfade(500)
                 }
                 textItemTitle.text = mTips.title
-                println("Tips ID : ${mTips.id}")
                 binding.root.context.makeToast(itemCount.toString())
             }
         }

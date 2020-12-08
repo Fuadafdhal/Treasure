@@ -100,8 +100,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebasecore_version"
     implementation "com.google.firebase:firebase-firestore:$firebasefirestore_version"
     implementation "com.google.android.gms:play-services-auth:$playservicesauth_version"
-
     implementation "com.facebook.android:facebook-android-sdk:$facebookandroidsdk_version"
+//    implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 

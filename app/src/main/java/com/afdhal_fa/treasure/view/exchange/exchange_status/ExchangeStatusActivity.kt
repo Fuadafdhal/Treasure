@@ -29,8 +29,6 @@ class ExchangeStatusActivity : BaseActivity<ExchangeStatusViewModel>() {
 
         viewTreasureUser(mExchange)
 
-
-
         binding.buttonClose.setOnClickListener {
             startActivity(
                 Intent(

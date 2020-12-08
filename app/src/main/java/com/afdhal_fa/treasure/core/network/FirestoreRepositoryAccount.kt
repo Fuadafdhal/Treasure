@@ -10,6 +10,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import timber.log.Timber
 
 
 object FirestoreRepositoryAccount {
@@ -78,7 +79,7 @@ object FirestoreRepositoryAccount {
                     if (it.isSuccessful) {
                         postValue(Resource.Success(mTreasureUser))
                     } else {
-                        println("Erorr : ${it.exception?.message}")
+                        Timber.e("Erorr : ${it.exception?.message}")
                         postValue(Resource.Error(it.exception?.message.toString()))
                     }
                 }

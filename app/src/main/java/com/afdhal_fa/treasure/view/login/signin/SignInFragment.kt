@@ -1,7 +1,10 @@
 package com.afdhal_fa.treasure.view.login.signin
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +20,7 @@ import com.afdhal_fa.treasure.core.utils.LoginValidate
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentSignInBinding
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
+import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -32,6 +33,8 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import timber.log.Timber
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.util.*
 
 
@@ -50,13 +53,17 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSignInBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        FacebookSdk.sdkInitialize(context)
+        callbackManager = CallbackManager.Factory.create()
+
+        printHashKey(requireContext())
 
         initGoogleSignInClient()
 
@@ -70,8 +77,29 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
 
         binding.buttonFacebookSign.setOnClickListener {
             signInFacebook()
-            Toast.makeText(requireContext(), "Comming soon !!!", Toast.LENGTH_SHORT).show()
         }
+
+
+        binding.buttonFacebookLogin.setReadPermissions("email", "public_profile")
+        binding.buttonFacebookLogin.registerCallback(
+            callbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    Timber.d("facebook:onSuccess:$loginResult")
+                    signInWithFacebookAuth(loginResult.accessToken)
+                }
+
+                override fun onCancel() {
+                    Timber.d("facebook:onCancel")
+                    // ...
+                }
+
+                override fun onError(error: FacebookException) {
+                    Timber.d("facebook:onError $error")
+                    // ...
+                }
+            })
+
 
     }
 
@@ -97,12 +125,13 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
      * this for intent dialog sign in with facebook
      */
     private fun signInFacebook() {
+        // Initialize Facebook Login button
         LoginManager.getInstance()
             .logInWithReadPermissions(requireActivity(), Arrays.asList("public_profile", "email"))
         LoginManager.getInstance()
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(result: LoginResult?) {
-                    signInWithFacebookAuth(result)
+                    signInWithFacebookAuth(result!!.accessToken)
                 }
 
                 override fun onCancel() {
@@ -125,7 +154,6 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         if (validate(textEmail, textPassword)) {
             signInWithEmailAuth(textEmail, textPassword)
         }
-
     }
 
     /**
@@ -136,16 +164,19 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+
+
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val googleSignInAccount = task.getResult(ApiException::class.java)
                 googleSignInAccount?.let { getGoogleAuthCredential(it) }
             } catch (e: ApiException) {
-                Timber.d(e.message.toString())
+                Timber.d(e)
             }
         }
+
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
     /**
@@ -176,6 +207,28 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
                 }
             }
         })
+    }
+
+
+    private fun printHashKey(pContext: Context) {
+        try {
+            val info = pContext.packageManager.getPackageInfo(
+                pContext.packageName,
+                PackageManager.GET_SIGNATURES
+            )
+            for (signature in info.signatures) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val hashKey = String(Base64.encode(md.digest(), 0))
+                Timber.d("printHashKey() Hash Key: " + hashKey)
+            }
+        } catch (e: NoSuchAlgorithmException) {
+            Timber.e("printHashKey() : $e")
+        } catch (e: Exception) {
+            Timber.e("printHashKey() : $e")
+        }
+
+
     }
 
     /**
@@ -211,8 +264,9 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
             }
     }
 
-    private fun signInWithFacebookAuth(result: LoginResult?) {
-        val credential = FacebookAuthProvider.getCredential(result?.accessToken?.token!!)
+    private fun signInWithFacebookAuth(token: AccessToken) {
+        onShowProgresbar()
+        val credential = FacebookAuthProvider.getCredential(token.token)
         viewmodel.signInWithFacebook(credential).observe(viewLifecycleOwner, {
             if (it != null) {
                 when (it) {

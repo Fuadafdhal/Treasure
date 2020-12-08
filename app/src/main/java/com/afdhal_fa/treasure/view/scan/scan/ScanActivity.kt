@@ -2,6 +2,7 @@ package com.afdhal_fa.treasure.view.scan.scan
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +13,8 @@ import androidx.core.content.ContextCompat
 import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.databinding.ActivityScanBinding
 import com.afdhal_fa.treasure.view.scan.CustomViewScanFinderView
+import com.afdhal_fa.treasure.view.scan.scanstatus.ScanStatusActivity
+import com.afdhal_fa.treasure.view.scan.statustrashbag.StatusTrashbagActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.zxing.Result
 import me.dm7.barcodescanner.core.IViewFinder
@@ -51,7 +54,22 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         }
 
         binding.imageNavigationFlash.setOnClickListener {
-            mScannerView.flash = mFlash
+            mScannerView.flash = !mScannerView.flash
+        }
+
+        binding.includeMisccellaneous.buttonInput.setOnClickListener {
+            val idTreash =
+                binding.includeMisccellaneous.textFieldIDCode.editText?.text.toString().trim()
+            if (idTreash.contains("TRASH")) {
+                startActivity(
+                    Intent(this, StatusTrashbagActivity::class.java).putExtra(
+                        StatusTrashbagActivity.EXTRA_INTENT_DATA,
+                        idTreash
+                    )
+                )
+            } else {
+                makeToast("Code Tidak Benar")
+            }
         }
 
     }
@@ -122,6 +140,17 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     }
 
     override fun handleResult(p0: Result?) {
-        TODO("What do you do for handel result ")
+        if (p0 != null) {
+            if (p0.text.contains("TRASH")) {
+                startActivity(
+                    Intent(
+                        this,
+                        ScanStatusActivity::class.java
+                    ).putExtra(ScanStatusActivity.EXTRA_INTENT_DATA, p0.text)
+                )
+            } else {
+                makeToast("QR Code Tidak Benar")
+            }
+        }
     }
 }

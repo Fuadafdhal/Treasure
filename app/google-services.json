@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "928697621180-jjm4pn04dbhtf3219g5m6m55lisuh6m0.apps.googleusercontent.com",
+          "client_id": "928697621180-rn0ho2qhcf22gloapmjgh9okqpq03c0u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.afdhal_fa.treasure",
-            "certificate_hash": "d98590a7688d7c512cce435c8a441cf3287edeb0"
+            "certificate_hash": "6b6019a25c4230543b165bd16472546bb6d2a169"
           }
         },
         {

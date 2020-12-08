@@ -13,8 +13,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
+import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.databinding.FragmentScanBinding
 import com.afdhal_fa.treasure.view.scan.scan.ScanActivity
+import com.afdhal_fa.treasure.view.scan.scanstatus.ScanStatusActivity
+import com.afdhal_fa.treasure.view.scan.scanstatus.ScanStatusActivity.Companion.EXTRA_INTENT_DATA
+import com.afdhal_fa.treasure.view.scan.statustrashbag.StatusTrashbagActivity
 import com.google.zxing.Result
 import me.dm7.barcodescanner.core.IViewFinder
 import me.dm7.barcodescanner.zxing.ZXingScannerView
@@ -52,6 +56,20 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
             }
         }
 
+        binding.buttonInput.setOnClickListener {
+            val idTreash = binding.textFieldIDCode.editText?.text.toString().trim()
+            if (idTreash.contains("TRASH")) {
+                startActivity(
+                    Intent(this.context, StatusTrashbagActivity::class.java).putExtra(
+                        StatusTrashbagActivity.EXTRA_INTENT_DATA,
+                        idTreash
+                    )
+                )
+            } else {
+                activity?.makeToast("Code Tidak Benar")
+            }
+        }
+
     }
 
 
@@ -67,7 +85,18 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
     }
 
     override fun handleResult(p0: Result?) {
-        TODO("What do you do for handel result ")
+        if (p0 != null) {
+            if (p0.text.contains("TRASH")) {
+                startActivity(
+                    Intent(this.context, ScanStatusActivity::class.java).putExtra(
+                        EXTRA_INTENT_DATA,
+                        p0.text
+                    )
+                )
+            } else {
+                activity?.makeToast("QR Code Tidak Benar")
+            }
+        }
     }
 
     private fun doRequestPermission() {
@@ -111,6 +140,5 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
         super.onDestroy()
         _binding = null
     }
-
 
 }

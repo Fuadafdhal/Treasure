@@ -29,9 +29,6 @@ class DetailNotificationActivity : BaseToolbarActivity<DetailNotificationViewMod
         mTreasureUser = intent.getParcelableExtra<TreasureUser>(EXTRA_INTENT_TREASURE_USER)!!
         mExchange = intent.getParcelableExtra<Exchange>(EXTRA_INTENT_TRANSACTION)!!
 
-        println(mTreasureUser.toString())
-        println(mExchange.toString())
-
         binding.textTitle.text = String.format("Penukaran %s", mExchange.type)
         binding.textSubTitile.text =
             when (mExchange.type) {

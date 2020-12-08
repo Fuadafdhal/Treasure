@@ -6,6 +6,7 @@ import com.afdhal_fa.treasure.core.domain.model.Exchange
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import timber.log.Timber
 
 
 object FirestoreRepositoryExchange {
@@ -26,7 +27,6 @@ object FirestoreRepositoryExchange {
                         postValue(Resource.Error(it.exception?.message.toString()))
                     }
                 }
-
         }
 
     fun viewExchangeInFirestore(uid: String): LiveData<Resource<MutableList<Exchange>>> =
@@ -40,7 +40,7 @@ object FirestoreRepositoryExchange {
                             val mExchange = i.toObject(Exchange::class.java)
                             if (mExchange != null) {
                                 if (mExchange.uid == uid) {
-                                    println(mExchange.toString())
+                                    Timber.d(mExchange.toString())
                                     dataArray.add(mExchange)
                                 }
                             }
