@@ -68,6 +68,9 @@
     <string name="text_success">Berhasil</string>
     <string name="text_back">Kembali</string>
 
+    <string name="text_prosess">Prosess</string>
+
+
     <!--    scanFragment-->
     <string name="text_hint_scan_qr_code">Arahkan ke QR code yang ada pada Trashbag</string>
     <string name="text_hint_or_use_id">atau masukkan kode ID Trashbag</string>

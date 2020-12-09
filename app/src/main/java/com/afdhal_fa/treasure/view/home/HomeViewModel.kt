@@ -2,6 +2,7 @@ package com.afdhal_fa.treasure.view.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.afdhal_fa.treasure.core.domain.model.Deposit
 import com.afdhal_fa.treasure.core.domain.model.Tips
 import com.afdhal_fa.treasure.core.domain.model.TreasureUser
 import com.afdhal_fa.treasure.core.domain.model.User
@@ -20,4 +21,7 @@ class HomeViewModel : ViewModel() {
 
     fun getTipsTreasure(): LiveData<Resource<MutableList<Tips>>> =
         FirestoreRepoHome.viewTipsInFirestore()
+
+    fun getDepositTreasure(uid: String): LiveData<Resource<MutableList<Deposit>>> =
+        FirestoreRepoHome.viewDepositInFirestore(uid)
 }

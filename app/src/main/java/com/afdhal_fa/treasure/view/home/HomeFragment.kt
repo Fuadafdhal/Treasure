@@ -30,6 +30,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
     private val binding get() = _binding!!
     private lateinit var userid: String
     private lateinit var tipsAdapter: TipsAdapter
+    private lateinit var depositAdapter: DepositAdapter
 
 
     override fun onCreateView(
@@ -44,6 +45,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tipsAdapter = TipsAdapter()
+        depositAdapter = DepositAdapter()
 
         if (activity != null) {
             checkIfUserIsAuthenticated()
@@ -55,11 +57,16 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
                 adapter = tipsAdapter
             }
 
+            with(binding.rvDeposit) {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = depositAdapter
+            }
+
             binding.tabLayoutDiagram.addOnTabSelectedListener(this)
             initBarChart()
-
         }
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -93,6 +100,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
                     if (it.data?.isAuthenticated!!) {
                         userid = it.data.uid
                         setTreasureData()
+                        setTreasureDeposit()
                     }
                 }
                 is Resource.Error -> {
@@ -124,6 +132,21 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
     }
 
 
+    private fun setTreasureDeposit() {
+        viewmodel.getDepositTreasure(userid).observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Success -> {
+                    if (it.data != null) {
+                        depositAdapter.setItem(it.data)
+                    }
+                }
+                is Resource.Error -> {
+                    context?.makeToast(it.message.toString())
+                }
+            }
+        })
+    }
+
     private fun setTreasureTips() {
         viewmodel.getTipsTreasure().observe(viewLifecycleOwner, {
             when (it) {
@@ -138,6 +161,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
             }
         })
     }
+
 
     private fun initBarChart() {
         binding.barChart.description.isEnabled = false

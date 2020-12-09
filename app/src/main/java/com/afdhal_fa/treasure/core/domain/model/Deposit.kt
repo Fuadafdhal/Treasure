@@ -1,11 +1,14 @@
 package com.afdhal_fa.treasure.core.domain.model
 
+import com.google.firebase.database.Exclude
+
 data class Deposit(
     val TrashbagID: String = "",
     val timestamp: Long = 0L,
     val code: String = "",
-    val uid: String
+    val uid: String = ""
 ) {
+    @get:Exclude
     var id: String = ""
 }
 

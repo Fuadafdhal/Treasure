@@ -7,6 +7,7 @@ import android.widget.TextView
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun Int.toDp(context: Context): Int = TypedValue.applyDimension(
@@ -33,7 +34,7 @@ fun Int.toRupiah(): String {
     kursIndonesia.isDecimalSeparatorAlwaysShown = false
     kursIndonesia.decimalFormatSymbols = formatRp
 
-    return kursIndonesia.format(this.toDouble()).replace(",00", "")
+    return kursIndonesia.format(this.toDouble())
 }
 
 fun String.toRupiahUnFormat(): String {
@@ -41,13 +42,10 @@ fun String.toRupiahUnFormat(): String {
 }
 
 
-fun timestampCovertToDate() {
-//    val timestamp = it["time"] as com.google.firebase.Timestamp
-//    val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-//    val sdf = SimpleDateFormat("MM/dd/yyyy")
-//    val netDate = Date(milliseconds)
-//    val date = sdf.format(netDate).toString()
-//    Log.d("TAG170", date)
+fun Long.covertToDate(): String {
+    val format = SimpleDateFormat("dd / MM / yyyy", Locale.getDefault())
+    val mDate = Date(this)
+    return format.format(mDate)
 }
 
 

@@ -34,24 +34,22 @@ object FirestoreRepoHome {
         }
     }
 
-    fun viewDepositInFirestore() = MutableLiveData<Resource<MutableList<Deposit>>>().apply {
-        val dataArray = ArrayList<Deposit>()
-        depositRef.get().addOnCompleteListener { taskQuery ->
-            if (taskQuery.isSuccessful) {
-                for (i in taskQuery.result!!.documents) {
-                    val document = i.toObject(Deposit::class.java)
-                    document?.id = i.id
-                    Timber.d(document.toString())
-                    if (document != null) {
-                        dataArray.add(document)
+    fun viewDepositInFirestore(uid: String) =
+        MutableLiveData<Resource<MutableList<Deposit>>>().apply {
+            val dataArray = ArrayList<Deposit>()
+            depositRef.get().addOnCompleteListener { taskQuery ->
+                if (taskQuery.isSuccessful) {
+                    for (i in taskQuery.result!!.documents) {
+                        val document = i.toObject(Deposit::class.java)
+                        document?.id = i.id
+                        if (document != null) if (document.uid == uid) dataArray.add(document)
                     }
+                    postValue(Resource.Success(dataArray))
+                } else {
+                    postValue(Resource.Error(taskQuery.exception?.message.toString()))
                 }
-                postValue(Resource.Success(dataArray))
-            } else {
-                postValue(Resource.Error(taskQuery.exception?.message.toString()))
             }
         }
-    }
 
 
 }
