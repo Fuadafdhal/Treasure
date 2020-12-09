@@ -17,11 +17,11 @@ import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.databinding.FragmentScanBinding
 import com.afdhal_fa.treasure.view.scan.scan.ScanActivity
 import com.afdhal_fa.treasure.view.scan.scanstatus.ScanStatusActivity
-import com.afdhal_fa.treasure.view.scan.scanstatus.ScanStatusActivity.Companion.EXTRA_INTENT_DATA
 import com.afdhal_fa.treasure.view.scan.statustrashbag.StatusTrashbagActivity
 import com.google.zxing.Result
 import me.dm7.barcodescanner.core.IViewFinder
 import me.dm7.barcodescanner.zxing.ZXingScannerView
+import java.util.*
 
 class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.ResultHandler {
     private var _binding: FragmentScanBinding? = null
@@ -57,13 +57,15 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
         }
 
         binding.buttonInput.setOnClickListener {
-            val idTreash = binding.textFieldIDCode.editText?.text.toString().trim()
+            val idTreash = binding.textFieldIDCode.editText?.text.toString().trim().toUpperCase(
+                Locale.getDefault()
+            )
             if (idTreash.contains("TRASH")) {
                 startActivity(
-                    Intent(this.context, StatusTrashbagActivity::class.java).putExtra(
-                        StatusTrashbagActivity.EXTRA_INTENT_DATA,
-                        idTreash
-                    )
+                    Intent(this.context, StatusTrashbagActivity::class.java).apply {
+                        putExtra(StatusTrashbagActivity.EXTRA_INTENT_DATA, idTreash)
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
                 )
             } else {
                 activity?.makeToast("Code Tidak Benar")
@@ -86,12 +88,12 @@ class ScanFragment : BaseToolbarFragment<ScanViewModel>(), ZXingScannerView.Resu
 
     override fun handleResult(p0: Result?) {
         if (p0 != null) {
-            if (p0.text.contains("TRASH")) {
+            if (p0.text.toUpperCase(Locale.getDefault()).contains("TRASH")) {
                 startActivity(
-                    Intent(this.context, ScanStatusActivity::class.java).putExtra(
-                        EXTRA_INTENT_DATA,
-                        p0.text
-                    )
+                    Intent(this.context, ScanStatusActivity::class.java).apply {
+                        putExtra(ScanStatusActivity.EXTRA_INTENT_DATA, p0.text)
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
                 )
             } else {
                 activity?.makeToast("QR Code Tidak Benar")

@@ -21,5 +21,9 @@ class ScanStatusActivity : AppCompatActivity() {
             makeToast(it)
             binding.textContent.text = String.format("Trashbag ID %s", it)
         }
+
+        binding.buttonClose.setOnClickListener {
+            finish()
+        }
     }
 }

@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.zxing.Result
 import me.dm7.barcodescanner.core.IViewFinder
 import me.dm7.barcodescanner.zxing.ZXingScannerView
+import java.util.*
 
 
 @Suppress("DEPRECATION")
@@ -60,12 +61,13 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         binding.includeMisccellaneous.buttonInput.setOnClickListener {
             val idTreash =
                 binding.includeMisccellaneous.textFieldIDCode.editText?.text.toString().trim()
+                    .toUpperCase(Locale.getDefault())
             if (idTreash.contains("TRASH")) {
                 startActivity(
-                    Intent(this, StatusTrashbagActivity::class.java).putExtra(
-                        StatusTrashbagActivity.EXTRA_INTENT_DATA,
-                        idTreash
-                    )
+                    Intent(this, StatusTrashbagActivity::class.java).apply {
+                        putExtra(StatusTrashbagActivity.EXTRA_INTENT_DATA, idTreash)
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
                 )
             } else {
                 makeToast("Code Tidak Benar")
@@ -141,12 +143,12 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
     override fun handleResult(p0: Result?) {
         if (p0 != null) {
-            if (p0.text.contains("TRASH")) {
+            if (p0.text.toUpperCase(Locale.getDefault()).contains("TRASH")) {
                 startActivity(
-                    Intent(
-                        this,
-                        ScanStatusActivity::class.java
-                    ).putExtra(ScanStatusActivity.EXTRA_INTENT_DATA, p0.text)
+                    Intent(this, ScanStatusActivity::class.java).apply {
+                        putExtra(ScanStatusActivity.EXTRA_INTENT_DATA, p0.text)
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
                 )
             } else {
                 makeToast("QR Code Tidak Benar")
