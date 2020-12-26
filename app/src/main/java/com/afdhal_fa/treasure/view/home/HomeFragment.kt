@@ -7,15 +7,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afdhal_fa.treasure.LoginActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
-import com.afdhal_fa.treasure.core.utils.makeToast
 import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentHomeBinding
 import com.afdhal_fa.treasure.view.home.notification.NotificationActivity
 import com.afdhal_fa.treasure.view.home.setting.SettingActivity
-import com.afdhal_fa.treasure.view.login.LoginActivity
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -104,7 +103,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
                     }
                 }
                 is Resource.Error -> {
-                    context?.makeToast("Error")
+                    Timber.e("checkIfUserIsAuthenticated: ${it.message.toString()}")
                     if (!it.data?.isAuthenticated!!) {
                         updateUI(it.data.isAuthenticated)
                     }
@@ -118,14 +117,12 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
             when (it) {
                 is Resource.Success -> {
                     if (it.data != null) {
-                        binding.textLevel.text =
-                            if (it.data.level == 0) "-" else it.data.level.toString()
-                        binding.textSaldo.text =
-                            if (it.data.saldo == 0L) "-" else it.data.saldo.toInt().toRupiah()
+                        binding.textLevel.text = it.data.level.toString()
+                        binding.textSaldo.text = it.data.saldo.toInt().toRupiah()
                     }
                 }
                 is Resource.Error -> {
-                    context?.makeToast(it.message.toString())
+                    Timber.e("setTreasureData: ${it.message.toString()}")
                 }
             }
         })
@@ -137,11 +134,19 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
             when (it) {
                 is Resource.Success -> {
                     if (it.data != null) {
-                        depositAdapter.setItem(it.data)
+                        if (it.data.size != 0) {
+                            binding.textSeeMoreDepostit.visibility = View.VISIBLE
+                            binding.rvDeposit.visibility = View.VISIBLE
+                            depositAdapter.setItem(it.data)
+                        } else {
+                            binding.rvDeposit.visibility = View.GONE
+                            binding.textErroDeposit.visibility = View.VISIBLE
+                            binding.textSeeMoreDepostit.visibility = View.GONE
+                        }
                     }
                 }
                 is Resource.Error -> {
-                    context?.makeToast(it.message.toString())
+                    Timber.e("setTreasureDeposit: ${it.message.toString()}")
                 }
             }
         })
@@ -156,7 +161,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
                     }
                 }
                 is Resource.Error -> {
-                    context?.makeToast(it.message.toString())
+                    Timber.e("setTreasureTips: ${it.message.toString()}")
                 }
             }
         })
@@ -181,8 +186,7 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
 
 
         val barSetMinggu = BarDataSet(dataValueMinguan(), "Minggu")
-        barSetMinggu.color =
-            ContextCompat.getColor(binding.root.context, R.color.colorPrimary)
+        barSetMinggu.color = ContextCompat.getColor(binding.root.context, R.color.colorPrimary)
         barSetMinggu.setDrawValues(false)
 
         val barData = BarData()
@@ -209,8 +213,6 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
         when (tab?.position) {
             0 -> {
                 Timber.d("Tab Select name : ${tab.text}")
-                context?.makeToast(tab.text.toString())
-
                 val barSetMinggu = BarDataSet(dataValueMinguan(), "Minggu")
                 barSetMinggu.color =
                     ContextCompat.getColor(binding.root.context, R.color.colorPrimary)
@@ -229,7 +231,6 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
 
             1 -> {
                 Timber.d("Tab Select name : ${tab.text}")
-                context?.makeToast(tab.text.toString())
 
                 val barSetBulan = BarDataSet(dataValueBulan(), "Bulan")
                 barSetBulan.color =
@@ -249,7 +250,6 @@ class HomeFragment : BaseToolbarFragment<HomeViewModel>(), TabLayout.OnTabSelect
 
             2 -> {
                 Timber.d("Tab Select name : ${tab.text}")
-                context?.makeToast(tab.text.toString())
 
                 val barSetTahun = BarDataSet(dataValueTahun(), "Tahun")
                 barSetTahun.color =

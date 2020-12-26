@@ -47,6 +47,18 @@ object FirestoreRepositoryAccount {
         return result
     }
 
+    fun createTreasureUserInFirestoreIfNotExists(uId: String): LiveData<Resource<TreasureUser>> =
+        MutableLiveData<Resource<TreasureUser>>().apply {
+            val mTreasureUser = TreasureUser(1, 0, 0, uId)
+            treasureUserRef.add(mTreasureUser).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    mTreasureUser.id = it.result!!.id
+                    postValue(Resource.Success(mTreasureUser))
+                } else {
+                    postValue(Resource.Error(it.exception?.message.toString()))
+                }
+            }
+        }
 
     fun viewTreasureUserInFirestore(userid: String): LiveData<Resource<TreasureUser>> {
         return MutableLiveData<Resource<TreasureUser>>().apply {
@@ -140,7 +152,6 @@ object FirestoreRepositoryAccount {
             }
         }
     }
-
 }
 
 

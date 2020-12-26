@@ -3,7 +3,6 @@ package com.afdhal_fa.treasure
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.afdhal_fa.treasure.view.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

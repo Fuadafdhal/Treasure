@@ -8,15 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import com.afdhal_fa.treasure.LoginActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
+import com.afdhal_fa.treasure.core.utils.toRupiah
 import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentAccountBinding
 import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity
 import com.afdhal_fa.treasure.view.account.edit_profile.EditProfileActivity.Companion.EXTRA_USER_DATA
-import com.afdhal_fa.treasure.view.login.LoginActivity
 import com.bumptech.glide.Glide
+import timber.log.Timber
 
 class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
     private var _binding: FragmentAccountBinding? = null
@@ -32,7 +34,7 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,7 +60,7 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
                 is Resource.Error -> {
                     context?.makeToast("Error")
                     if (!it.data?.isAuthenticated!!) {
-                        updateUI(it.data.isAuthenticated)
+                        updateUI()
                     }
                 }
             }
@@ -110,12 +112,13 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
                     if (it.data != null) {
                         binding.textLevelStatus.text =
                             if (it.data.level == 0) "-" else it.data.level.toString()
-
-                        //TODO : Change to price convert
-                        binding.textSaldoStatus.text =
-                            if (it.data.saldo == 0L) "-" else it.data.saldo.toString()
+//                        binding.textSaldoStatus.text =
+//                            if (it.data.saldo == 0L) "-" else it.data.saldo.toInt().toRupiah()
                         binding.textTrashStatus.text =
                             if (it.data.totalTreash == 0) "-" else it.data.totalTreash.toString()
+
+
+                        binding.textSaldoStatus.text = it.data.saldo.toInt().toRupiah()
                     }
                 }
                 is Resource.Error -> {
@@ -128,7 +131,11 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
     private fun logOut() {
         viewmodel.logOutAuthenticated().observe(viewLifecycleOwner, {
             if (it is Resource.Success) {
-                updateUI(it.data?.isAuthenticated!!)
+                if (!it.data?.isAuthenticated!!) {
+                    updateUI()
+                }
+            } else {
+                Timber.d("Resource.Error")
             }
         })
     }
@@ -151,9 +158,9 @@ class AccoutFragment : BaseToolbarFragment<AccountViewModel>() {
         return binding.includeAppbar.toolbar
     }
 
-    private fun updateUI(boolean: Boolean) {
-        if (boolean) {
-            startActivity(Intent(this.context, LoginActivity::class.java))
+    private fun updateUI() {
+        startActivity(Intent(this.context, LoginActivity::class.java)).also {
+            activity?.finish()
         }
     }
 

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.afdhal_fa.treasure.MainActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.User
@@ -47,7 +48,7 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSignUpBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -76,6 +77,10 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
         binding.buttonGoogleSign.setOnClickListener { signInGoogle() }
 
         binding.buttonFacebookSign.setOnClickListener { signInFacebook() }
+
+        binding.buttonSignIn.setOnClickListener {
+            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+        }
     }
 
     private fun signUpEmail() {
@@ -139,6 +144,7 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
      * this for go to check google sign in and set feedback
      */
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
+        onShowProgressBar()
         viewmodel.signInWithGoogle(googleAuthCredential)
             .observe(viewLifecycleOwner) {
                 when (it) {
@@ -169,11 +175,11 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
      */
     private fun signInFacebook() {
         LoginManager.getInstance()
-            .logInWithReadPermissions(requireActivity(), Arrays.asList("public_profile", "email"))
+            .logInWithReadPermissions(this, Arrays.asList("public_profile", "email"))
         LoginManager.getInstance()
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(result: LoginResult?) {
-                    handleFacebookAccessToken(result)
+                    signInWithFacebookAuth(result)
                     Timber.d("facebook:onSuccess:$result")
                 }
 
@@ -187,15 +193,26 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
             })
     }
 
-    private fun handleFacebookAccessToken(result: LoginResult?) {
+    private fun signInWithFacebookAuth(result: LoginResult?) {
+        onShowProgressBar()
         val credential = FacebookAuthProvider.getCredential(result?.accessToken?.token!!)
         viewmodel.signInWithFacebook(credential).observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Success -> {
-                    context?.makeToast("Success")
+                    if (it.data?.isNew!!) {
+                        createNewUser(it.data)
+                        Timber.d("createUser: Success")
+                    } else {
+                        updateUI()
+                        onHideProgressBar()
+                        Timber.d("createUser: A Ready An Account!")
+                    }
                 }
+
                 is Resource.Error -> {
-                    context?.makeToast("Error")
+                    context?.makeToast(it.message.toString())
+                    onHideProgressBar()
+                    Timber.d("createUser: an error")
                 }
             }
         })
@@ -207,14 +224,28 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
             when (it) {
                 is Resource.Success -> {
                     if (it.data?.isCreated!!) {
+                        createNewTreasurUser(it.data.uid)
+                    }
+                }
+                is Resource.Error -> {
+                    this.onHideProgressBar()
+                }
+            }
+        })
+    }
+
+    private fun createNewTreasurUser(uid: String) {
+        viewmodel.createTreasureUser(uid).observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Success -> {
+                    if (it.data?.id != "") {
+                        updateUI()
                         Toast.makeText(requireContext(), "Success", Toast.LENGTH_LONG).show()
                     }
                     this.onHideProgressBar()
                 }
                 is Resource.Error -> {
                     this.onHideProgressBar()
-                }
-                is Resource.Loading -> {
                 }
             }
         })
@@ -227,9 +258,8 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
      * this for check onActivityResult from google sign in and facebook sign in
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
         callbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == Constants.RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)

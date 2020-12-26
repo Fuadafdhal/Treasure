@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afdhal_fa.treasure.LoginActivity
 import com.afdhal_fa.treasure.R
 import com.afdhal_fa.treasure.core.domain.model.Nominal
 import com.afdhal_fa.treasure.core.utils.BaseToolbarFragment
@@ -17,7 +18,6 @@ import com.afdhal_fa.treasure.core.vo.Resource
 import com.afdhal_fa.treasure.databinding.FragmentExchangeBinding
 import com.afdhal_fa.treasure.view.exchange.choose_nominal.ChoseeNominalActivity
 import com.afdhal_fa.treasure.view.exchange.exchange_confirmation.ExchangeConfirmationActivity
-import com.afdhal_fa.treasure.view.login.LoginActivity
 
 class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
     private var _binding: FragmentExchangeBinding? = null
@@ -35,7 +35,7 @@ class ExchangeFragment : BaseToolbarFragment<ExchangeViewModel>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentExchangeBinding.inflate(layoutInflater)
         return binding.root
     }

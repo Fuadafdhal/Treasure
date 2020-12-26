@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afdhal_fa.treasure.LoginActivity
 import com.afdhal_fa.treasure.core.domain.model.TreasureUser
 import com.afdhal_fa.treasure.core.utils.BaseFragment
 import com.afdhal_fa.treasure.core.utils.makeToast
@@ -15,7 +16,6 @@ import com.afdhal_fa.treasure.databinding.FragmentTransactionBinding
 import com.afdhal_fa.treasure.view.home.notification.DetailNotificationActivity
 import com.afdhal_fa.treasure.view.home.notification.DetailNotificationActivity.Companion.EXTRA_INTENT_TRANSACTION
 import com.afdhal_fa.treasure.view.home.notification.DetailNotificationActivity.Companion.EXTRA_INTENT_TREASURE_USER
-import com.afdhal_fa.treasure.view.login.LoginActivity
 
 class TransactionFragment : BaseFragment<TransactionViewModel>() {
     private var _binding: FragmentTransactionBinding? = null

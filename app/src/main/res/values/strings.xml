@@ -14,8 +14,8 @@
 
     <string name="image_description">image</string>
 
-    <string name="facebook_app_id">775220356401421</string>
-    <string name="fb_login_protocol_scheme">fb775220356401421</string>
+    <string name="facebook_app_id">203835847961566</string>
+    <string name="fb_login_protocol_scheme">fb203835847961566</string>
 
 
     <!--    LoginActivity-->
@@ -27,6 +27,9 @@
     <string name="text_or_sign_in">atau masuk dengan</string>
     <string name="text_ask_not_have_account">Belum punya akun Trashure?</string>
     <string name="text_sign_up">Daftar</string>
+
+    <string name="text_reset_password">Reset Password</string>
+    <string name="text_forgoten_hint">Masukkan email untuk mereset password kamu, dan cek email kamu untuk mengatur ulang password</string>
 
     <!--    SignUpFragment-->
     <string name="prompt_phone">Nomor HP</string>

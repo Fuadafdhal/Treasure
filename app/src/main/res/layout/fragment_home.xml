@@ -90,7 +90,6 @@
                             tools:text="Rp.150.000" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                     <TextView
                         android:id="@+id/textTitleLevel"
                         android:layout_width="wrap_content"
@@ -274,11 +273,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <TextView
+                android:id="@+id/textErroDeposit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/sf_pro_bold"
+                android:text="Upps!!, kamu sama sekali belum pernah menyetor sampah."
+                android:textColor="@color/colorTextHintLabel"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/textTitleTips"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTitleDeposit" />
+
+            <TextView
                 android:id="@+id/textSeeMoreDepostit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/sf_pro_regular"
+                android:visibility="gone"
                 android:text="@string/text_see_more"
                 android:textColor="@color/colorTextLabel"
                 android:textSize="14sp"
@@ -290,6 +304,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -304,6 +319,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/sf_pro_bold"
+                app:layout_goneMarginTop="56dp"
                 android:text="@string/text_tips"
                 android:textColor="@color/colorTextLabel"
                 android:textSize="20sp"

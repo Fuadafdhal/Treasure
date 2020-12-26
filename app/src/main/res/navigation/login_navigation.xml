@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgotenPasswordFragment"
+            app:destination="@id/forgotenPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -23,4 +26,9 @@
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/forgotenPasswordFragment"
+        android:name="com.afdhal_fa.treasure.view.login.forgoten.ForgotenPasswordFragment"
+        android:label="fragment_forgoten_password"
+        tools:layout="@layout/fragment_forgoten_password" />
 </navigation>
