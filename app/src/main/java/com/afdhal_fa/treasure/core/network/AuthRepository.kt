@@ -134,6 +134,30 @@ object AuthRepository {
         }
     }
 
+    fun forgotenPasswordWithEmail(email: String): LiveData<Resource<User>> {
+        return MutableLiveData<Resource<User>>().apply {
+            var user = User()
+            if (firebaseAuth.currentUser == null) {
+                user.isAuthenticated = false
+                value = Resource.Error("isAuthenticated: False", user)
+            } else {
+                user = User(uid = firebaseAuth.uid.toString())
+                user.isAuthenticated = true
+                value = Resource.Success(user)
+            }
+
+            firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    user.isReset = true
+                    postValue(Resource.Success(user))
+                } else {
+                    user.isReset = false
+                    postValue(Resource.Error("${it.exception?.message}", user))
+                }
+            }
+        }
+    }
+
     fun logOutAuthenticatedInFirebase(): LiveData<Resource<User>> {
         return MutableLiveData<Resource<User>>().apply {
             val user = User()

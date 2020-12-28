@@ -25,4 +25,8 @@ data class User(
     @IgnoredOnParcel
     @get:Exclude
     var isCreated: Boolean = false
+
+    @IgnoredOnParcel
+    @get:Exclude
+    var isReset: Boolean = false
 }
