@@ -70,6 +70,11 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
 
+
+        binding.buttonForgotenPassowrd.setOnClickListener {
+            findNavController().navigate(R.id.action_signInFragment_to_forgotenPasswordFragment)
+        }
+
         binding.buttonGoogleSign.setOnClickListener { signInGoogle() }
 
         binding.buttonFacebookSign.setOnClickListener {

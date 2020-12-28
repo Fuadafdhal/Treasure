@@ -136,16 +136,7 @@ object AuthRepository {
 
     fun forgotenPasswordWithEmail(email: String): LiveData<Resource<User>> {
         return MutableLiveData<Resource<User>>().apply {
-            var user = User()
-            if (firebaseAuth.currentUser == null) {
-                user.isAuthenticated = false
-                value = Resource.Error("isAuthenticated: False", user)
-            } else {
-                user = User(uid = firebaseAuth.uid.toString())
-                user.isAuthenticated = true
-                value = Resource.Success(user)
-            }
-
+            val user = User()
             firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
                 if (it.isSuccessful) {
                     user.isReset = true

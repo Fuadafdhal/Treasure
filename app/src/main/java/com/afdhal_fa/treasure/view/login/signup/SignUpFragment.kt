@@ -79,7 +79,7 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
         binding.buttonFacebookSign.setOnClickListener { signInFacebook() }
 
         binding.buttonSignIn.setOnClickListener {
-            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+            findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
     }
 

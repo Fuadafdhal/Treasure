@@ -56,9 +56,11 @@ class ForgotenPasswordFragment : BaseFragment<ForgotenViewModel>() {
                     if (it.data!!.isReset) {
                         context?.makeToast("Password berhasil di reset silahkan cek email anda")
                     }
+                    onHideProgressBar()
                 }
                 is Resource.Error -> {
                     context?.makeToast(it.message.toString())
+                    onHideProgressBar()
                 }
             }
         })

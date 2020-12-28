@@ -67,15 +67,20 @@ object FirestoreRepositoryAccount {
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        var mTreasureUser = TreasureUser()
                         for (i in task.result?.documents!!) {
-                            val mTreasureUser = i.toObject(TreasureUser::class.java) as TreasureUser
+                            mTreasureUser = i.toObject(TreasureUser::class.java) as TreasureUser
                             if (mTreasureUser.uid.equals(userid)) {
                                 mTreasureUser.id = i.id
-                                postValue(Resource.Success(mTreasureUser))
-                            } else {
-                                postValue(Resource.Error("Dompet Treasure Anda Tidak Ditemukan"))
                             }
                         }
+
+                        if (mTreasureUser.id.isNotEmpty()) {
+                            postValue(Resource.Success(mTreasureUser))
+                        } else {
+                            postValue(Resource.Error("Dompet Treasure Anda Tidak Ditemukan"))
+                        }
+
                     } else {
                         postValue(Resource.Error(task.exception!!.message.toString()))
                     }
