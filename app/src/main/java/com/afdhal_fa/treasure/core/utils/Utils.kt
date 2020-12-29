@@ -34,11 +34,12 @@ fun Int.toRupiah(): String {
     kursIndonesia.isDecimalSeparatorAlwaysShown = false
     kursIndonesia.decimalFormatSymbols = formatRp
 
-    return kursIndonesia.format(this.toDouble()).replace(",00", "")
+    return kursIndonesia.format(this.toDouble())
 }
 
 fun String.toRupiahUnFormat(): String {
-    return this.replace("Rp".toRegex(), "").replace("[.]".toRegex(), "").replace(",00", "")
+    return this.replace("Rp".toRegex(), "").replace("[.]".toRegex(), "")
+        .replace("[,]".toRegex(), "")
 }
 
 

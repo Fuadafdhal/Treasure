@@ -88,7 +88,7 @@ object AuthRepository {
                             uid = uid,
                             name = name,
                             email = email,
-                            phoneNumber = phoneNumber,
+                            phoneNumber = "",
                             birtdayDate = "",
                             image = image
                         )
